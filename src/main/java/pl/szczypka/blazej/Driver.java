@@ -5,7 +5,9 @@ import java.util.Date;
 public class Driver{
     public int id;
     public String driverType;
-    boolean parkingStat = false;
+    boolean parkingStat;
+    String statusFromStart = "";
+    String statusFromStop = "";
     public String string1="0";
     public String string2="0";
     public long minutes;
@@ -35,10 +37,13 @@ public class Driver{
         String startTime = simpleDateFormat.format(now);
 
         //Status park meter is changed to ON
-         parkingStatusMeter("start");
+
         System.out.println(startTime);
         string2 = startTime;
+        String statusFromStart = "start";
+        parkingStatusMeter("StArT");
         return startTime;
+
     }
 
     //Stop parking meter
@@ -48,6 +53,7 @@ public class Driver{
         String stopTime = simpleDateFormat.format(nowStop);
 
         //Status park meter is changed to OFF
+        statusFromStop = "stop";
         parkingStatusMeter("stop");
         System.out.println(stopTime);
         string1 = stopTime;
@@ -56,14 +62,17 @@ public class Driver{
 
     //assign status whether parking mater is ON or OFF
     public boolean parkingStatusMeter(String param) {
-        if (param.toLowerCase() == "start") {
+        if (param.toLowerCase().equals("start")) {
             parkingStat = true;
             System.out.println("Parking meter for driver "+id+" is ON");
-        } else if (param.toLowerCase() == "stop") {
+        } else if (param.toLowerCase().equals("stop")) {
             parkingStat = false;
             System.out.println("Parking meter for driver "+id+" is OFF");
+        } else{
+            System.out.println("Parameter in parking meter is incorrect");
         }
-        System.out.println("Status meter: "+ parkingStat);
+
+//        System.out.println("Status meter: "+ parkingStat);
         return parkingStat;
     }
 
@@ -71,7 +80,6 @@ public class Driver{
     public double howMuchIsToPay(String stopTime, String startTime) throws Exception {
 //        string1 = stopTime;
 //        string2 = startTime;
-
 
         double startFee = 1;
         double disabledStartFee = 0;
@@ -152,12 +160,15 @@ public class Driver{
 
 
     //toString is mandatory for reading from JSON
+
     @Override
     public String toString() {
         return "Driver{" +
                 "id=" + id +
                 ", driverType='" + driverType + '\'' +
                 ", parkingStat=" + parkingStat +
+                ", statusFromStart='" + statusFromStart + '\'' +
+                ", statusFromStop='" + statusFromStop + '\'' +
                 ", string1='" + string1 + '\'' +
                 ", string2='" + string2 + '\'' +
                 ", minutes=" + minutes +

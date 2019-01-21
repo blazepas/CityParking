@@ -4,30 +4,32 @@ import java.io.FileWriter;
 
 public class App {
     public static void main(String[] args) {
-
         DriverList driverList = getDrivers();
-//        System.out.println(driverList);
+        System.out.println(driverList);
         ObjectMapper mapper = new ObjectMapper();
         /**
          * Write object to JSON
          */
-
         try{
         mapper.writeValue(new FileWriter("result.json"),driverList);
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
         private static DriverList getDrivers(){
             Driver driver = new Driver(5, "Regular");
             Driver driver2 = new Driver(6, "Disabled");
             //start and stop timer both works in the same time!!
             driver.startTimerMethod();
-//            driver.stopTimerMethod();
+            //driver.stopTimerMethod();
+            driver.parkingStat=driver.parkingStatusMeter(driver.statusFromStart);
+            System.out.println("meeeeeterrrr :"+driver.parkingStatusMeter(driver.statusFromStart));
 
             driver2.startTimerMethod();
             driver2.stopTimerMethod();
+            driver2.parkingStatusMeter(driver2.statusFromStop);
+            driver2.parkingStat=driver2.parkingStatusMeter(driver2.statusFromStop);
+
 
             //Use method to check how much driver has to pay
             if(driver.parkingStat == false){
@@ -37,6 +39,7 @@ public class App {
                     e.printStackTrace();
                 }
             } else{
+                boolean parr = driver.parkingStat;
                 System.out.println("Parking meter still running");
                 //
                 // lub tutaj przekierowania przerwa BREAK; CONTINUE return?
@@ -77,4 +80,5 @@ public class App {
 
             return driverList;
         }
+
 }
