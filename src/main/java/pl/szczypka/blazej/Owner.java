@@ -10,9 +10,7 @@ public class Owner {
     DriverList driverList = new DriverList();
     public void checkIfDriverTurnOnParkingMeter(){
         //take actual status
-
     }
-
 
     //From JSON file read data (ArrayList with objects saved to JSON)
     public void checkTotalMoneyForGivenDay(){
