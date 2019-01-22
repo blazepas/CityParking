@@ -3,9 +3,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Driver{
-    public int id;
+    public String id;
     public String driverType;
-    boolean parkingStat;
+    public boolean parkingStat;
+    public String parkingStatTx="";
     String statusFromStart = "";
     String statusFromStop = "";
     public String string1="0";
@@ -21,7 +22,7 @@ public class Driver{
     public Driver(){}
 
     //This constructor is helpfull to create another object
-    public Driver(int id, String driverType){
+    public Driver(String id, String driverType){
         this.id=id;
         this.driverType=driverType;
     }
@@ -61,7 +62,8 @@ public class Driver{
     }
 
     //assign status whether parking mater is ON or OFF
-    public boolean parkingStatusMeter(String param) {
+//    public boolean parkingStatusMeter(String param) {
+    public String parkingStatusMeter(String param) {
         if (param.toLowerCase().equals("start")) {
             parkingStat = true;
             System.out.println("Parking meter for driver "+id+" is ON");
@@ -73,7 +75,9 @@ public class Driver{
         }
 
 //        System.out.println("Status meter: "+ parkingStat);
-        return parkingStat;
+        parkingStatTx = String.valueOf(parkingStat);
+//        return parkingStat;
+        return parkingStatTx;
     }
 
     //Show how much he/she has to pay
@@ -167,6 +171,7 @@ public class Driver{
                 "id=" + id +
                 ", driverType='" + driverType + '\'' +
                 ", parkingStat=" + parkingStat +
+                ", parkingStatTx='" + parkingStatTx + '\'' +
                 ", statusFromStart='" + statusFromStart + '\'' +
                 ", statusFromStop='" + statusFromStop + '\'' +
                 ", string1='" + string1 + '\'' +
@@ -179,4 +184,24 @@ public class Driver{
                 ", exchangeRateCurrency=" + exchangeRateCurrency +
                 '}';
     }
+
+
+//    @Override
+//    public String toString() {
+//        return "Driver{" +
+//                "id=" + id +
+//                ", driverType='" + driverType + '\'' +
+//                ", parkingStat=" + parkingStat +
+//                ", statusFromStart='" + statusFromStart + '\'' +
+//                ", statusFromStop='" + statusFromStop + '\'' +
+//                ", string1='" + string1 + '\'' +
+//                ", string2='" + string2 + '\'' +
+//                ", minutes=" + minutes +
+//                ", timestamp='" + timestamp + '\'' +
+//                ", paymentForAllHours=" + paymentForAllHours +
+//                ", countedHours=" + countedHours +
+//                ", currency='" + currency + '\'' +
+//                ", exchangeRateCurrency=" + exchangeRateCurrency +
+//                '}';
+//    }
 }

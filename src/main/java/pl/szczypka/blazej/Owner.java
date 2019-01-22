@@ -8,21 +8,50 @@ import java.util.Scanner;
 public class Owner {
     ObjectMapper objectMapperOperator = new ObjectMapper();
     DriverList driverList = new DriverList();
-    public void checkIfDriverTurnOnParkingMeter(){
-        //take actual status
+    DriverList value = null;
+
+    public DriverList readJSON(){
+        //ObjectMapper to read JSON file
+        try {
+            value = objectMapperOperator.readValue(new File("result.json"), DriverList.class);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    public void checkIfDriverTurnOnParkingMeter() {
+        String readStatus="";
+        String searchedPlate="WFA2131";
+        for (int i = 0; i < readJSON().getDrivers().size(); i++) {
+//            readStatus = readJSON().getDrivers().get(i).id;
+//            System.out.println(readStatus);
+            //find driver car
+            if((readJSON().getDrivers().get(i).id).equals(searchedPlate)){
+                System.out.println("Status for car "+searchedPlate+" is: "+readJSON().getDrivers().get(i).parkingStat);
+            }else{
+//                System.out.println("There is no such a car in the car park");
+            }
+        }
     }
 
     //From JSON file read data (ArrayList with objects saved to JSON)
     public void checkTotalMoneyForGivenDay(){
-//        ListIterator<Driver> litr = null;
+        //ListIterator<Driver> litr = null;
         double totalMoney = 0;
-        DriverList value = null;
+//        DriverList value = null;
         String yourDateToCheck ="";
         int checkOnlyOneDay = 0;
-
+//        //ObjectMapper to read JSON file
         try {
-            //ObjectMapper to read JSON file
             value = objectMapperOperator.readValue(new File("result.json"), DriverList.class);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+//            //ObjectMapper to read JSON file
+//            value = objectMapperOperator.readValue(new File("result.json"), DriverList.class);
+
             //From DriveList use method to get drivers and iterate using listIterator
             //litr=value.getDrivers().listIterator();
             int listSize = value.getDrivers().size();
@@ -73,6 +102,8 @@ public class Owner {
 
         System.out.println(value);
         //Calling method to check how much money was collected per one day
+
         owner.checkTotalMoneyForGivenDay();
+        owner.checkIfDriverTurnOnParkingMeter();
     }
 }

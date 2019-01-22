@@ -8,7 +8,7 @@ public class App {
         System.out.println(driverList);
         ObjectMapper mapper = new ObjectMapper();
         /**
-         * Write object to JSON
+         * Below function write object to JSON file (mocked database)
          */
         try{
         mapper.writeValue(new FileWriter("result.json"),driverList);
@@ -16,19 +16,20 @@ public class App {
             e.printStackTrace();
         }
     }
+
         private static DriverList getDrivers(){
-            Driver driver = new Driver(5, "Regular");
-            Driver driver2 = new Driver(6, "Disabled");
+            Driver driver = new Driver("SBIG156", "Regular");
+            Driver driver2 = new Driver("WWA2131", "Disabled");
             //start and stop timer both works in the same time!!
             driver.startTimerMethod();
             //driver.stopTimerMethod();
-            driver.parkingStat=driver.parkingStatusMeter(driver.statusFromStart);
+//            driver.parkingStat=driver.parkingStatusMeter(driver.statusFromStart);
             System.out.println("meeeeeterrrr :"+driver.parkingStatusMeter(driver.statusFromStart));
 
             driver2.startTimerMethod();
             driver2.stopTimerMethod();
             driver2.parkingStatusMeter(driver2.statusFromStop);
-            driver2.parkingStat=driver2.parkingStatusMeter(driver2.statusFromStop);
+//            driver2.parkingStat=driver2.parkingStatusMeter(driver2.statusFromStop);
 
 
             //Use method to check how much driver has to pay
