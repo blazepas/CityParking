@@ -1,25 +1,82 @@
 package pl.szczypka.blazej;
-import pl.szczypka.blazej.Driver;
-import pl.szczypka.blazej.App;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.FileWriter;
 
 public class CarPark {
-//Driver driv = new Driver(7, "Regular");
-//Driver driv2 = new Driver(8, "Disabled");
-//Driver driv3 = new Driver(9, "Regular");
-//
-//    void methodd(){
-//        ListIterator listIterator = null;
-//        List<Driver> testDrive = new ArrayList<Driver>();
-//        testDrive.add(driv);
-//        testDrive.add(driv2);
-//        testDrive.add(driv3);
-//        testDrive.listIterator();
-//    }
+    public static void main(String[] args) {
+        DriverList driverList = getDrivers();
+        System.out.println(driverList);
+        ObjectMapper mapper = new ObjectMapper();
+        /**
+         * Below function write object to JSON file (mocked database)
+         */
+        try{
+        mapper.writeValue(new FileWriter("result.json"),driverList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+        private static DriverList getDrivers(){
+            Driver driver = new Driver("SBIG156", "Regular");
+            Driver driver2 = new Driver("WWA2131", "Disabled");
+            Driver driver10 = new Driver("WAW1517", "Regular");
+            //start and stop timer both works in the same time!!
+            driver.startTimerMethod();
+
+            driver2.startTimerMethod();
+            driver2.stopTimerMethod();
 
 
+            //Use method to check how much driver has to pay
+            if(driver.vehicleParkingMeterStatus.equals("stop")){
+                try {
+                    driver.howMuchIsToPay(driver.startTimerMethod(), driver.stopTimerMethod());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else{
+                String parr = driver.vehicleParkingMeterStatus;
+                System.out.println("Parking meter still running");
+                //
+                // lub tutaj przekierowania przerwa BREAK; CONTINUE return?
+                // lub tak:
+                //driver.howMuchIsToPay(driver.startTimerMethod(), driver.stopTimerMethod("0"));
+                //
+                try {
+//                    driver.howMuchIsToPay(driver.string2, "0");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            if(driver2.vehicleParkingMeterStatus.equals("stop")){
+                try {
+                    driver2.howMuchIsToPay(driver2.startTime, driver2.stopTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else{
+                System.out.println("Parking meter still running");
+                //
+                // lub tutaj przekierowania przerwa BREAK; CONTINUE return?
+                // lub tak:
+                //driver.howMuchIsToPay(driver.startTimerMethod(), driver.stopTimerMethod("0"));
+                //
+                try {
+                    driver2.howMuchIsToPay(driver2.startTime, "0");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            DriverList driverList = new DriverList();
+            driverList.getDrivers().add(driver);
+            driverList.getDrivers().add(driver2);
+            driverList.getDrivers().add(driver10);
+
+            return driverList;
+        }
 
 }

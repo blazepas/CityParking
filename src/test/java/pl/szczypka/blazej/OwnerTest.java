@@ -2,29 +2,20 @@ package pl.szczypka.blazej;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
-import pl.szczypka.blazej.DriverList;
-import pl.szczypka.blazej.Owner;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
-
 public class OwnerTest {
-
 
     @Test
     public void checkTotalMoneyForGivenDay() {
         ObjectMapper objMap = new ObjectMapper();
         DriverList valFromList = null;
-
         try {
             valFromList = objMap.readValue(new File("result.json"), DriverList.class);
-            List<String> li = new LinkedList<>();
+            List<String> checklist = new LinkedList<>();
 
             //Get one date from database and check pattern examples
             String enteredDate = valFromList.getDrivers().get(0).timestamp;
@@ -40,27 +31,24 @@ public class OwnerTest {
             String dateSpaces = (x+" "+y+" "+z);
             String dateOneNumber = (x+""+y+""+z);
 
-            //Add incorrect patterns to list
-            li.add(dateSlashes);
-            li.add(dateDots);
-            li.add(dateSpaces);
-            li.add(dateOneNumber);
-            li.add("January 2019");
-            li.add("22 January 2019");
-            li.add("22 2019");
+            //Add incorrect patterns to checklist
+            checklist.add(dateSlashes);
+            checklist.add(dateDots);
+            checklist.add(dateSpaces);
+            checklist.add(dateOneNumber);
+            checklist.add("January 2019");
+            checklist.add("22 January 2019");
+            checklist.add("22 2019");
 
             //Check if bad patterns are not matching with right one dd-MM-yyy in database
             for (int i = 0; i<valFromList.getDrivers().size(); i++){
-                for(int j = 0; j<li.size(); j++) {
-                    assertNotEquals(valFromList.getDrivers().get(i).timestamp, (li.get(j)));
-                    System.out.println("This date pattern is not valid: "+li.get(j));
+                for(int j = 0; j<checklist.size(); j++) {
+                    assertNotEquals(valFromList.getDrivers().get(i).timestamp, (checklist.get(j)));
+                    System.out.println("This incorrect pattern:    "+checklist.get(j)+"    does not exists in database");
                 }
-
             }
-
             }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }

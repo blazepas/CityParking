@@ -5,14 +5,9 @@ import java.util.Date;
 public class Driver{
     public String vehiclePlate;
     public String driverType;
-//    public boolean parkingStat;
     public String vehicleParkingMeterStatus ="";
-//    String statusFromStart = "";
-//    String statusFromStop = "";
     public String startTime="0";
     public String stopTime ="0";
-
-//    public String stopTime="0";
     public long minutes;
     public String timestamp;
     public double paymentForAllHours;
@@ -35,7 +30,6 @@ public class Driver{
 
         vehicleParkingMeterStatus = "ddddddddddddddddddddddd";
 
-
         Date now = new Date();
         SimpleDateFormat simpleOnlyDateForm = new SimpleDateFormat("dd-MM-yyyy");
         timestamp = simpleOnlyDateForm.format(now);
@@ -45,8 +39,6 @@ public class Driver{
         String startTime = "0";
 
         System.out.println(startTime);
-//        string2 = startTime;
-//        String statusFromStart = "null";
         parkingStatusMeter("null");
 
         return vehicleParkingMeterStatus;
@@ -62,10 +54,7 @@ public class Driver{
         startTime = simpleDateFormat.format(now);
 
         //Status park meter is changed to ON
-
         System.out.println(startTime);
-//        string2 = startTime;
-//        String statusFromStart = "start";
         parkingStatusMeter("StArT");
         return startTime;
 
@@ -76,45 +65,30 @@ public class Driver{
         Date nowStop = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         stopTime = simpleDateFormat.format(nowStop);
-
-        //Status park meter is changed to OFF
-//        statusFromStop = "stop";
         parkingStatusMeter("stop");
         System.out.println(stopTime);
-//        stopTime = stopTime;
         return stopTime;
     }
 
-    //assign status whether parking mater is ON or OFF
-//    public boolean parkingStatusMeter(String param) {
+    //assign status parking mater
     public String parkingStatusMeter(String param) {
         if(param.toLowerCase().equals("null")){
             vehicleParkingMeterStatus = "doesnt-take-off";
             System.out.println("Parking meter for driver "+ vehiclePlate +" doesn't take off");
         } else if (param.toLowerCase().equals("start")) {
             vehicleParkingMeterStatus = "ON";
-//            parkingStat = true;
             System.out.println("Parking meter for driver "+ vehiclePlate +" is ON");
         } else if (param.toLowerCase().equals("stop")) {
             vehicleParkingMeterStatus = "OFF";
-//            parkingStat = false;
             System.out.println("Parking meter for driver "+ vehiclePlate +" is OFF");
         } else{
             System.out.println("Parameter in parking meter is incorrect");
         }
-
-//        System.out.println("Status meter: "+ parkingStat);
-//        vehicleParkingMeterStatus = String.valueOf(parkingStat);
-//        return parkingStat;
-
         return vehicleParkingMeterStatus;
     }
 
     //Show how much he/she has to pay
     public double howMuchIsToPay(String stopTimeIn, String startTimeIn) throws Exception {
-//        stopTime = stopTime;
-//        string2 = startTime;
-
         double startFee = 1;
         double disabledStartFee = 0;
         double secondHourFee = 2;
@@ -124,7 +98,6 @@ public class Driver{
         double calcEachHour;
         double houreBefore = 2;
         double disabledHoureBefore = 2;
-
 
             //utworzenie instancji do formatowania daty
             SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm:ss");
@@ -180,29 +153,20 @@ public class Driver{
                         System.out.println("Disabled total payment for "+ minutes/60 + " hours is " + paymentForAllHours+" " + currency);
                     }
                 }
-
             }
             //
             // If date2 == "0" skip caluculation in Driver howMuch
-        //
-
-
-
 
                 return paymentForAllHours;
             }
 
-
     //toString is mandatory for reading from JSON
-
     @Override
     public String toString() {
         return "Driver{" +
                 "vehiclePlate=" + vehiclePlate +
                 ", driverType='" + driverType + '\'' +
                 ", vehicleParkingMeterStatus='" + vehicleParkingMeterStatus + '\'' +
-//                ", statusFromStart='" + statusFromStart + '\'' +
-//                ", statusFromStop='" + statusFromStop + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", stopTime='" + stopTime + '\'' +
                 ", minutes=" + minutes +
@@ -213,24 +177,4 @@ public class Driver{
                 ", exchangeRateCurrency=" + exchangeRateCurrency +
                 '}';
     }
-
-
-//    @Override
-//    public String toString() {
-//        return "Driver{" +
-//                "vehiclePlate=" + vehiclePlate +
-//                ", driverType='" + driverType + '\'' +
-//                ", parkingStat=" + parkingStat +
-//                ", statusFromStart='" + statusFromStart + '\'' +
-//                ", statusFromStop='" + statusFromStop + '\'' +
-//                ", stopTime='" + stopTime + '\'' +
-//                ", string2='" + string2 + '\'' +
-//                ", minutes=" + minutes +
-//                ", timestamp='" + timestamp + '\'' +
-//                ", paymentForAllHours=" + paymentForAllHours +
-//                ", countedHours=" + countedHours +
-//                ", currency='" + currency + '\'' +
-//                ", exchangeRateCurrency=" + exchangeRateCurrency +
-//                '}';
-//    }
 }

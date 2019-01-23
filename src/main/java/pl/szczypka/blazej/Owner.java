@@ -20,14 +20,17 @@ public class Owner {
     }
 
     public void checkIfDriverTurnOnParkingMeter() {
-        String readStatus="";
-        String searchedPlate="WFA2131";
+        System.out.println("Enter vehicle plate to check status eg.WAW1517 or SBIG156");
+        Scanner scPlate = new Scanner(System.in);
+        String findVehiclePlate=scPlate.nextLine();
+
+//        String searchedPlate="WFA2131";
         for (int i = 0; i < readJSON().getDrivers().size(); i++) {
 //            readStatus = readJSON().getDrivers().get(i).vehiclePlate;
 //            System.out.println(readStatus);
             //find driver car
-            if((readJSON().getDrivers().get(i).vehiclePlate).equals(searchedPlate)){
-                System.out.println("Status for car "+searchedPlate+" is: "+readJSON().getDrivers().get(i).vehicleParkingMeterStatus);
+            if((readJSON().getDrivers().get(i).vehiclePlate).equals(findVehiclePlate)){
+                System.out.println("Status for car "+findVehiclePlate+" is: "+readJSON().getDrivers().get(i).vehicleParkingMeterStatus);
             }else{
 //                System.out.println("There is no such a car in the car park");
             }
