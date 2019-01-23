@@ -5,10 +5,10 @@ import java.util.Date;
 public class Driver{
     public String id;
     public String driverType;
-    public boolean parkingStat;
-    public String parkingStatTx="";
-    String statusFromStart = "";
-    String statusFromStop = "";
+//    public boolean parkingStat;
+    public String vehicleParkingMeterStatus ="";
+//    String statusFromStart = "";
+//    String statusFromStop = "";
     public String string1="0";
     public String string2="0";
     public long minutes;
@@ -26,14 +26,12 @@ public class Driver{
         this.id=id;
         this.driverType=driverType;
         defaultTimerMethod();
-//        parkingStatusMeter("null");
-
-
     }
-    //This method is created only to show invoking from constructor. It is possible to do it in one line.
+
+    //This method is created only to show invoking from constructor. It is possible to do it when variable is initialised
     public String defaultTimerMethod(){
-//        parkingStatusMeter("null");
-        parkingStatTx = "ddddddddddddddddddddddd";
+
+        vehicleParkingMeterStatus = "ddddddddddddddddddddddd";
 
 
         Date now = new Date();
@@ -46,10 +44,10 @@ public class Driver{
 
         System.out.println(startTime);
         string2 = startTime;
-        String statusFromStart = "null";
+//        String statusFromStart = "null";
         parkingStatusMeter("null");
 
-        return parkingStatTx;
+        return vehicleParkingMeterStatus;
     }
 
     //Start parking meter
@@ -65,7 +63,7 @@ public class Driver{
 
         System.out.println(startTime);
         string2 = startTime;
-        String statusFromStart = "start";
+//        String statusFromStart = "start";
         parkingStatusMeter("StArT");
         return startTime;
 
@@ -78,7 +76,7 @@ public class Driver{
         String stopTime = simpleDateFormat.format(nowStop);
 
         //Status park meter is changed to OFF
-        statusFromStop = "stop";
+//        statusFromStop = "stop";
         parkingStatusMeter("stop");
         System.out.println(stopTime);
         string1 = stopTime;
@@ -89,22 +87,25 @@ public class Driver{
 //    public boolean parkingStatusMeter(String param) {
     public String parkingStatusMeter(String param) {
         if(param.toLowerCase().equals("null")){
-            parkingStat = true;
-            System.out.println("Parking meter for driver "+id+" doesn't taken off");
+            vehicleParkingMeterStatus = "doesnt-take-off";
+            System.out.println("Parking meter for driver "+id+" doesn't take off");
         } else if (param.toLowerCase().equals("start")) {
-            parkingStat = true;
+            vehicleParkingMeterStatus = "ON";
+//            parkingStat = true;
             System.out.println("Parking meter for driver "+id+" is ON");
         } else if (param.toLowerCase().equals("stop")) {
-            parkingStat = false;
+            vehicleParkingMeterStatus = "OFF";
+//            parkingStat = false;
             System.out.println("Parking meter for driver "+id+" is OFF");
         } else{
             System.out.println("Parameter in parking meter is incorrect");
         }
 
 //        System.out.println("Status meter: "+ parkingStat);
-        parkingStatTx = String.valueOf(parkingStat);
+//        vehicleParkingMeterStatus = String.valueOf(parkingStat);
 //        return parkingStat;
-        return parkingStatTx;
+
+        return vehicleParkingMeterStatus;
     }
 
     //Show how much he/she has to pay
@@ -197,10 +198,9 @@ public class Driver{
         return "Driver{" +
                 "id=" + id +
                 ", driverType='" + driverType + '\'' +
-                ", parkingStat=" + parkingStat +
-                ", parkingStatTx='" + parkingStatTx + '\'' +
-                ", statusFromStart='" + statusFromStart + '\'' +
-                ", statusFromStop='" + statusFromStop + '\'' +
+                ", vehicleParkingMeterStatus='" + vehicleParkingMeterStatus + '\'' +
+//                ", statusFromStart='" + statusFromStart + '\'' +
+//                ", statusFromStop='" + statusFromStop + '\'' +
                 ", string1='" + string1 + '\'' +
                 ", string2='" + string2 + '\'' +
                 ", minutes=" + minutes +

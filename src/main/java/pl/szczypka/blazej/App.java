@@ -25,23 +25,23 @@ public class App {
             driver.startTimerMethod();
             //driver.stopTimerMethod();
 //            driver.parkingStat=driver.parkingStatusMeter(driver.statusFromStart);
-            System.out.println("meeeeeterrrr :"+driver.parkingStatusMeter(driver.statusFromStart));
+//            System.out.println("meeeeeterrrr :"+driver.parkingStatusMeter(driver.statusFromStart));
 
             driver2.startTimerMethod();
             driver2.stopTimerMethod();
-            driver2.parkingStatusMeter(driver2.statusFromStop);
+//            driver2.parkingStatusMeter(driver2.statusFromStop);
 //            driver2.parkingStat=driver2.parkingStatusMeter(driver2.statusFromStop);
 
 
             //Use method to check how much driver has to pay
-            if(driver.parkingStat == false){
+            if(driver.vehicleParkingMeterStatus.equals("stop")){
                 try {
                     driver.howMuchIsToPay(driver.startTimerMethod(), driver.stopTimerMethod());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else{
-                boolean parr = driver.parkingStat;
+                String parr = driver.vehicleParkingMeterStatus;
                 System.out.println("Parking meter still running");
                 //
                 // lub tutaj przekierowania przerwa BREAK; CONTINUE return?
@@ -56,7 +56,7 @@ public class App {
             }
 
 
-            if(driver2.parkingStat == false){
+            if(driver2.vehicleParkingMeterStatus.equals("stop")){
                 try {
                     driver2.howMuchIsToPay(driver2.string2, driver2.string1);
                 } catch (Exception e) {

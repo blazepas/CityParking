@@ -2,7 +2,6 @@ package pl.szczypka.blazej;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-import java.util.ListIterator;
 import java.util.Scanner;
 
 public class Owner {
@@ -28,7 +27,7 @@ public class Owner {
 //            System.out.println(readStatus);
             //find driver car
             if((readJSON().getDrivers().get(i).id).equals(searchedPlate)){
-                System.out.println("Status for car "+searchedPlate+" is: "+readJSON().getDrivers().get(i).parkingStat);
+                System.out.println("Status for car "+searchedPlate+" is: "+readJSON().getDrivers().get(i).vehicleParkingMeterStatus);
             }else{
 //                System.out.println("There is no such a car in the car park");
             }
