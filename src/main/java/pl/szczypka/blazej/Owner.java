@@ -23,10 +23,10 @@ public class Owner {
         String readStatus="";
         String searchedPlate="WFA2131";
         for (int i = 0; i < readJSON().getDrivers().size(); i++) {
-//            readStatus = readJSON().getDrivers().get(i).id;
+//            readStatus = readJSON().getDrivers().get(i).vehiclePlate;
 //            System.out.println(readStatus);
             //find driver car
-            if((readJSON().getDrivers().get(i).id).equals(searchedPlate)){
+            if((readJSON().getDrivers().get(i).vehiclePlate).equals(searchedPlate)){
                 System.out.println("Status for car "+searchedPlate+" is: "+readJSON().getDrivers().get(i).vehicleParkingMeterStatus);
             }else{
 //                System.out.println("There is no such a car in the car park");

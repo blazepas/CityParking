@@ -3,14 +3,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Driver{
-    public String id;
+    public String vehiclePlate;
     public String driverType;
 //    public boolean parkingStat;
     public String vehicleParkingMeterStatus ="";
 //    String statusFromStart = "";
 //    String statusFromStop = "";
-    public String string1="0";
-    public String string2="0";
+    public String startTime="0";
+    public String stopTime ="0";
+
+//    public String stopTime="0";
     public long minutes;
     public String timestamp;
     public double paymentForAllHours;
@@ -23,7 +25,7 @@ public class Driver{
 
     //This constructor is helpfull to create another object
     public Driver(String id, String driverType){
-        this.id=id;
+        this.vehiclePlate =id;
         this.driverType=driverType;
         defaultTimerMethod();
     }
@@ -43,7 +45,7 @@ public class Driver{
         String startTime = "0";
 
         System.out.println(startTime);
-        string2 = startTime;
+//        string2 = startTime;
 //        String statusFromStart = "null";
         parkingStatusMeter("null");
 
@@ -57,12 +59,12 @@ public class Driver{
         timestamp = simpleOnlyDateForm.format(now);
         System.out.println("Dataaaaaaaaaaaa: "+simpleOnlyDateForm.format(now));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-        String startTime = simpleDateFormat.format(now);
+        startTime = simpleDateFormat.format(now);
 
         //Status park meter is changed to ON
 
         System.out.println(startTime);
-        string2 = startTime;
+//        string2 = startTime;
 //        String statusFromStart = "start";
         parkingStatusMeter("StArT");
         return startTime;
@@ -73,13 +75,13 @@ public class Driver{
     public String stopTimerMethod(){
         Date nowStop = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-        String stopTime = simpleDateFormat.format(nowStop);
+        stopTime = simpleDateFormat.format(nowStop);
 
         //Status park meter is changed to OFF
 //        statusFromStop = "stop";
         parkingStatusMeter("stop");
         System.out.println(stopTime);
-        string1 = stopTime;
+//        stopTime = stopTime;
         return stopTime;
     }
 
@@ -88,15 +90,15 @@ public class Driver{
     public String parkingStatusMeter(String param) {
         if(param.toLowerCase().equals("null")){
             vehicleParkingMeterStatus = "doesnt-take-off";
-            System.out.println("Parking meter for driver "+id+" doesn't take off");
+            System.out.println("Parking meter for driver "+ vehiclePlate +" doesn't take off");
         } else if (param.toLowerCase().equals("start")) {
             vehicleParkingMeterStatus = "ON";
 //            parkingStat = true;
-            System.out.println("Parking meter for driver "+id+" is ON");
+            System.out.println("Parking meter for driver "+ vehiclePlate +" is ON");
         } else if (param.toLowerCase().equals("stop")) {
             vehicleParkingMeterStatus = "OFF";
 //            parkingStat = false;
-            System.out.println("Parking meter for driver "+id+" is OFF");
+            System.out.println("Parking meter for driver "+ vehiclePlate +" is OFF");
         } else{
             System.out.println("Parameter in parking meter is incorrect");
         }
@@ -109,8 +111,8 @@ public class Driver{
     }
 
     //Show how much he/she has to pay
-    public double howMuchIsToPay(String stopTime, String startTime) throws Exception {
-//        string1 = stopTime;
+    public double howMuchIsToPay(String stopTimeIn, String startTimeIn) throws Exception {
+//        stopTime = stopTime;
 //        string2 = startTime;
 
         double startFee = 1;
@@ -128,13 +130,13 @@ public class Driver{
             SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm:ss");
             //wczytanie zmiennej typu string do instancji formatowania daty i całość przypisanie do instancji daty.
 
-            if(string1 == "0" || string2 == "0"){
+            if(stopTime == "0" || startTime == "0"){
                 //
                 //
                 System.out.println("HERE I AM !!!!!!!!!!!!!!!!!!!!!!!!!!");
             }else {
-                Date date1 = simpleDateFormat1.parse(string1);
-                Date date2 = simpleDateFormat1.parse(string2);
+                Date date1 = simpleDateFormat1.parse(stopTime);
+                Date date2 = simpleDateFormat1.parse(startTime);
 
                 long difference = date1.getTime() - date2.getTime();
                 //count seconds to minutes
@@ -196,13 +198,13 @@ public class Driver{
     @Override
     public String toString() {
         return "Driver{" +
-                "id=" + id +
+                "vehiclePlate=" + vehiclePlate +
                 ", driverType='" + driverType + '\'' +
                 ", vehicleParkingMeterStatus='" + vehicleParkingMeterStatus + '\'' +
 //                ", statusFromStart='" + statusFromStart + '\'' +
 //                ", statusFromStop='" + statusFromStop + '\'' +
-                ", string1='" + string1 + '\'' +
-                ", string2='" + string2 + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", stopTime='" + stopTime + '\'' +
                 ", minutes=" + minutes +
                 ", timestamp='" + timestamp + '\'' +
                 ", paymentForAllHours=" + paymentForAllHours +
@@ -216,12 +218,12 @@ public class Driver{
 //    @Override
 //    public String toString() {
 //        return "Driver{" +
-//                "id=" + id +
+//                "vehiclePlate=" + vehiclePlate +
 //                ", driverType='" + driverType + '\'' +
 //                ", parkingStat=" + parkingStat +
 //                ", statusFromStart='" + statusFromStart + '\'' +
 //                ", statusFromStop='" + statusFromStop + '\'' +
-//                ", string1='" + string1 + '\'' +
+//                ", stopTime='" + stopTime + '\'' +
 //                ", string2='" + string2 + '\'' +
 //                ", minutes=" + minutes +
 //                ", timestamp='" + timestamp + '\'' +

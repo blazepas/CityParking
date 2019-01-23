@@ -58,7 +58,7 @@ public class App {
 
             if(driver2.vehicleParkingMeterStatus.equals("stop")){
                 try {
-                    driver2.howMuchIsToPay(driver2.string2, driver2.string1);
+                    driver2.howMuchIsToPay(driver2.startTime, driver2.stopTime);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -70,7 +70,7 @@ public class App {
                 //driver.howMuchIsToPay(driver.startTimerMethod(), driver.stopTimerMethod("0"));
                 //
                 try {
-                    driver2.howMuchIsToPay(driver2.string2, "0");
+                    driver2.howMuchIsToPay(driver2.startTime, "0");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
