@@ -20,6 +20,7 @@ public class App {
         private static DriverList getDrivers(){
             Driver driver = new Driver("SBIG156", "Regular");
             Driver driver2 = new Driver("WWA2131", "Disabled");
+            Driver driver10 = new Driver("WAW1517", "Regular");
             //start and stop timer both works in the same time!!
             driver.startTimerMethod();
             //driver.stopTimerMethod();
@@ -78,6 +79,7 @@ public class App {
             DriverList driverList = new DriverList();
             driverList.getDrivers().add(driver);
             driverList.getDrivers().add(driver2);
+            driverList.getDrivers().add(driver10);
 
             return driverList;
         }

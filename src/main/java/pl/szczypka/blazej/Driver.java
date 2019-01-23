@@ -25,8 +25,32 @@ public class Driver{
     public Driver(String id, String driverType){
         this.id=id;
         this.driverType=driverType;
-    }
+        defaultTimerMethod();
+//        parkingStatusMeter("null");
 
+
+    }
+    //This method is created only to show invoking from constructor. It is possible to do it in one line.
+    public String defaultTimerMethod(){
+//        parkingStatusMeter("null");
+        parkingStatTx = "ddddddddddddddddddddddd";
+
+
+        Date now = new Date();
+        SimpleDateFormat simpleOnlyDateForm = new SimpleDateFormat("dd-MM-yyyy");
+        timestamp = simpleOnlyDateForm.format(now);
+        System.out.println("Default::::::::::::::::: "+simpleOnlyDateForm.format(now));
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        String startTime = "0";
+
+        System.out.println(startTime);
+        string2 = startTime;
+        String statusFromStart = "null";
+        parkingStatusMeter("null");
+
+        return parkingStatTx;
+    }
 
     //Start parking meter
     public String startTimerMethod(){
@@ -64,7 +88,10 @@ public class Driver{
     //assign status whether parking mater is ON or OFF
 //    public boolean parkingStatusMeter(String param) {
     public String parkingStatusMeter(String param) {
-        if (param.toLowerCase().equals("start")) {
+        if(param.toLowerCase().equals("null")){
+            parkingStat = true;
+            System.out.println("Parking meter for driver "+id+" doesn't taken off");
+        } else if (param.toLowerCase().equals("start")) {
             parkingStat = true;
             System.out.println("Parking meter for driver "+id+" is ON");
         } else if (param.toLowerCase().equals("stop")) {
