@@ -18,9 +18,10 @@ public class CarPark {
     }
 
         private static DriverList getDrivers(){
-            Driver driver = new Driver("SBIG156", "Regular");
-            Driver driver2 = new Driver("WWA2131", "Disabled");
-            Driver driver10 = new Driver("WAW1517", "Regular");
+            //To add driver please enter plate number and driver type a=Regular b=Disabled
+            Driver driver = new Driver("SBIG156", "a");
+            Driver driver2 = new Driver("WWA2131", "b");
+            Driver driver10 = new Driver("WAW1517", "a");
             Driver driver11 = new Driver("SK9145H", "ZZZZZZZ");
             //start and stop timer both works in the same time!!
             driver.startTimerMethod();
@@ -30,13 +31,13 @@ public class CarPark {
 
 
             //Use method to check how much driver has to pay
-            if(driver.vehicleParkingMeterStatus.equals("stop")){
+            if(driver.vehicleParkingMeterStatus.toUpperCase().equals("OFF")){
                 try {
                     driver.howMuchIsToPay(driver.startTimerMethod(), driver.stopTimerMethod());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if(driver.vehicleParkingMeterStatus.equals("start")){
+            } else if(driver.vehicleParkingMeterStatus.toUpperCase().equals("ON")){
 //                Parking meter for vehicle "+driver2.vehiclePlate+" still running
 //                String parr = driver.vehicleParkingMeterStatus;
                 System.out.println("Parking meter for vehicle "+driver.vehiclePlate+" still running");
@@ -54,13 +55,13 @@ public class CarPark {
             }
 
 
-            if(driver2.vehicleParkingMeterStatus.equals("stop")){
+            if(driver2.vehicleParkingMeterStatus.equals("OFF")){
                 try {
                     driver2.howMuchIsToPay(driver2.startTime, driver2.stopTime);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if(driver.vehicleParkingMeterStatus.equals("start")){
+            } else if(driver.vehicleParkingMeterStatus.equals("ON")){
                 System.out.println("Parking meter for vehicle "+driver2.vehiclePlate+" still running");
                 //
                 // lub tutaj przekierowania przerwa BREAK; CONTINUE return?

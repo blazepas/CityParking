@@ -20,7 +20,7 @@ public class Operator {
     }
 
     public void checkIfDriverTurnOnParkingMeter() {
-        System.out.println("Enter vehicle plate to check status eg.WAW1517 or SBIG156");
+        System.out.println("Enter vehicle plate to check status eg.WAW1517 or SBIG156 :");
         Scanner scPlate = new Scanner(System.in);
         String findVehiclePlate=scPlate.nextLine();
 

@@ -36,25 +36,34 @@ public class Driver{
 //    public Driver(String id, String driverType){
     //Validate driverType
     public Driver(String id, String driverType){
-        if(driverType.equals("Regular")){
-            this.driverType = driverType;
-        } else  if (driverType.equals("Disabled")){
-            this.driverType = driverType;
-        } else {
-            System.out.println("!!!!!Incorect Driver Type!!!!!!");
-            try {
-                throw new IllegalAccessException("Driver type can be only Regular or Disabled");
-            }catch (Exception e){
-//                e.printStackTrace();
-            }
+//        this(id, driverType, "Musta");
+//    String driverType="";
+        switch(driverType){
+            case "a": this.driverType="Regular";
+                    break;
+            case "b": this.driverType="Disabled";
         }
+
+
+//        if(driverType.equals("Regular")){
+//            this.driverType = driverType;
+//        } else  if (driverType.equals("Disabled")){
+//            this.driverType = driverType;
+//        } else {
+//            System.out.println("!!!!!Incorect Driver Type!!!!!!");
+//            try {
+//                throw new IllegalAccessException("Driver type can be only Regular or Disabled");
+//            }catch (Exception e){
+////                e.printStackTrace();
+//            }
+//        }
 
         this.vehiclePlate =id;
 //        this.driverType=driverType;
         defaultTimerMethod();
     }
 
-    //This method is created to show invoking from constructor.
+    //This method is used during driver object initualisation. Invoking from constructor.
     public String defaultTimerMethod(){
         Date now = new Date();
         SimpleDateFormat simpleOnlyDateForm = new SimpleDateFormat("dd-MM-yyyy");
@@ -132,7 +141,7 @@ public class Driver{
             if(stopTime == "0" || startTime == "0"){
                 //
                 //
-                System.out.println("Display this");
+                System.out.println("-=Display this=-");
             }else {
                 Date date1 = simpleDateFormat1.parse(stopTime);
                 Date date2 = simpleDateFormat1.parse(startTime);
