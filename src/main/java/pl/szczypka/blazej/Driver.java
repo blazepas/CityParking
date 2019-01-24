@@ -15,27 +15,53 @@ public class Driver{
     public String currency = "PLN";
     public double exchangeRateCurrency;
 
+
+//    public String validateDriverType(String driverTypeIn){
+//
+//        if(driverTypeIn.equals("Regular")){
+//            driverType = driverTypeIn;
+//        } else  if (driverTypeIn.equals("Regular")){
+//            driverType = driverTypeIn;
+//        } else {
+//            System.out.println("!!!!!!!!!!!");
+//        }
+//        return driverType;
+//    }
+
+
     //This constructor is mandatory for reading from JSON
     public Driver(){}
 
     //This constructor is helpfull to create another object
+//    public Driver(String id, String driverType){
+    //Validate driverType
     public Driver(String id, String driverType){
+        if(driverType.equals("Regular")){
+            this.driverType = driverType;
+        } else  if (driverType.equals("Disabled")){
+            this.driverType = driverType;
+        } else {
+            System.out.println("!!!!!Incorect Driver Type!!!!!!");
+            try {
+                throw new IllegalAccessException("Driver type can be only Regular or Disabled");
+            }catch (Exception e){
+//                e.printStackTrace();
+            }
+        }
+
         this.vehiclePlate =id;
-        this.driverType=driverType;
+//        this.driverType=driverType;
         defaultTimerMethod();
     }
 
-    //This method is created only to show invoking from constructor. It is possible to do it when variable is initialised
+    //This method is created to show invoking from constructor.
     public String defaultTimerMethod(){
-
-        vehicleParkingMeterStatus = "ddddddddddddddddddddddd";
-
         Date now = new Date();
         SimpleDateFormat simpleOnlyDateForm = new SimpleDateFormat("dd-MM-yyyy");
         timestamp = simpleOnlyDateForm.format(now);
-        System.out.println("Default::::::::::::::::: "+simpleOnlyDateForm.format(now));
+        System.out.println("Default object initialise::::::::::::::::: "+simpleOnlyDateForm.format(now));
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         String startTime = "0";
 
         System.out.println(startTime);
@@ -106,7 +132,7 @@ public class Driver{
             if(stopTime == "0" || startTime == "0"){
                 //
                 //
-                System.out.println("HERE I AM !!!!!!!!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Display this");
             }else {
                 Date date1 = simpleDateFormat1.parse(stopTime);
                 Date date2 = simpleDateFormat1.parse(startTime);
@@ -136,7 +162,7 @@ public class Driver{
                     }
                     //Calculate fee for the car park
                     //Fee for Disability
-                } else {
+                } else if(driverType == "Disabled") {
                     if(minutes<=60){
                         System.out.println("Disabled peyment for one hour = "+disabledStartFee);
                     }
@@ -154,9 +180,6 @@ public class Driver{
                     }
                 }
             }
-            //
-            // If date2 == "0" skip caluculation in Driver howMuch
-
                 return paymentForAllHours;
             }
 

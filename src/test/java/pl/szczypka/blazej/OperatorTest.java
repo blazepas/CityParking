@@ -7,9 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-public class OwnerTest {
+public class OperatorTest {
 
     @Test
+    //Check if there are no incorrect dates in database
+
     public void checkTotalMoneyForGivenDay() {
         ObjectMapper objMap = new ObjectMapper();
         DriverList valFromList = null;

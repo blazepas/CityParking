@@ -6,13 +6,6 @@ import java.util.List;
 public class DriverList {
     private List<Driver> driverList = new ArrayList<>();
 
-//    public List<Driver> getDates(){
-//        int listSize = getDrivers().size();
-//        System.out.println("counter in list: "+listSize);
-//
-//        return driverList;
-//    }
-
     public List<Driver> getDrivers(){
 //        System.out.println(driverList);
         return driverList;
