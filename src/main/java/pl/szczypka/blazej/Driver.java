@@ -1,6 +1,7 @@
 package pl.szczypka.blazej;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Driver{
     public String vehiclePlate;
@@ -62,6 +63,108 @@ public class Driver{
 //        this.driverType=driverType;
         defaultTimerMethod();
     }
+
+//    Driver driver;
+//
+//switch(charopt){
+//        case 1:
+//            //other code
+//            myPet = new Dog(dogName);
+//
+//    public DostawcaKotow(String imie) {
+//        this.imie = imie;
+//    }
+    // wylosuj różne zwierzeta - koty albo tygrysy
+    // niech imionami będą kolejne liczby
+
+//          for (int i = 0; i < tab.length; i++) {
+//        tab[i] = stworzKota();
+//        tab[i].name += "_" + i + " od " + imie;
+//    }
+//
+//        return tab;
+
+//public DriverList askList(){
+public void askList(){
+//        DriverList aaa = new DriverList();
+        System.out.println("Enter your vehicle plate number: ");
+        Scanner takeOptions = new Scanner(System.in);
+        String takePlate = takeOptions.nextLine();
+        System.out.println("Enter your driver type a-Regular b-Disabled: ");
+        takeOptions = new Scanner(System.in);
+        String takeType = takeOptions.nextLine();
+
+        System.out.println(">>Creating driver<<");
+        int i=0;
+        if(i<1){
+            d=new Driver(takePlate, takeType);
+            i++;
+        }
+        CarPark carPark = new CarPark();
+//        aaa.getDrivers().add(d);
+//    System.out.println("DRIIIIIIIIII:     "+aaa);
+//        carPark.getDrivers().getDrivers().add(d);
+//    carPark.getDrivers().getDrivers().add(d);
+//    carPark2.driverList1.getDrivers().add(d);
+    carPark.driverList1.getDrivers().add(d);
+    System.out.println("W aadDriveer:::   "+carPark.getDrivers().getDrivers());
+//    System.out.println("W aadDriveer:::   "+carPark2.getDrivers().getDrivers());
+//        return aaa;
+}
+
+
+//                driverList.getDrivers().add(driverAcc.addDriverObj(takePlate,takeType));
+//        System.out.println("LLLLLL<>>>>>>>>>>>  :   "+driverList);
+
+//    public void askDriver(){
+//        System.out.println("Enter your vehicle plate number: ");
+//        Scanner takeOptions = new Scanner(System.in);
+//        String takePlate = takeOptions.nextLine();
+//        System.out.println("Enter your driver type a-Regular b-Disabled: ");
+//        takeOptions = new Scanner(System.in);
+//        String takeType = takeOptions.nextLine();
+//        addDriverObj(takePlate,takeType);
+////                driverList.getDrivers().add(driverAcc.addDriverObj(takePlate,takeType));
+////        System.out.println("LLLLLL<>>>>>>>>>>>  :   "+driverList);
+//    }
+
+    Driver d;
+    //Method addDriverObj() is begining to change logic where is possible to add one by one user to database from console
+    public Driver addDriverObj(String plateIn, String driverTypeIn) {
+
+        System.out.println("Creating driver");
+
+        int i=0;
+        if(i<1){
+            d=new Driver(plateIn, driverTypeIn);
+//            System.out.println(d);
+//            d.vehiclePlate=plateIn;
+//            d.driverType=driverTypeIn;
+            i++;
+        }
+//        static Driver dd = d;
+        addDriverToListManually(d);
+        return d;
+    }
+
+    public void addDriverToListManually(Driver dri){
+//        System.out.println("Driver adding to list");
+//        DriverList driverList = new DriverList();
+        CarPark carPark = new CarPark();
+//        driverList.getDrivers().add(dri);
+//        System.out.println(dri);
+//        System.out.println(driverList);
+//        carPark
+//        driverList.getDrivers().add(d);
+        carPark.getDrivers().getDrivers().add(dri);
+        System.out.println("W aadDriveer:::   "+carPark.getDrivers().getDrivers());
+        //to ponizej to inna lista!!!! do edycji ten rejon!!!
+//        return driverList;
+    }
+
+
+
+
 
     //This method is used during driver object initualisation. Invoking from constructor.
     public String defaultTimerMethod(){
