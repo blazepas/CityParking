@@ -1,4 +1,5 @@
 package pl.szczypka.blazej;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
@@ -85,8 +86,8 @@ public class Driver{
 //        return tab;
 
 //public DriverList askList(){
-public void askList(){
-//        DriverList aaa = new DriverList();
+public DriverList askList(){
+        DriverList aaa = new DriverList();
         System.out.println("Enter your vehicle plate number: ");
         Scanner takeOptions = new Scanner(System.in);
         String takePlate = takeOptions.nextLine();
@@ -106,10 +107,16 @@ public void askList(){
 //        carPark.getDrivers().getDrivers().add(d);
 //    carPark.getDrivers().getDrivers().add(d);
 //    carPark2.driverList1.getDrivers().add(d);
+//    carPark.getDrivers().getDrivers().add(d);
     carPark.driverList1.getDrivers().add(d);
-    System.out.println("W aadDriveer:::   "+carPark.getDrivers().getDrivers());
+    aaa=carPark.driverList1;
+    carPark.driverList1.getDrivers().add(d);
+    System.out.println("zzzz"+carPark.driverList1.getDrivers());
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+//    System.out.println("W aadDriveer:::   "+carPark.getDrivers().getDrivers());
 //    System.out.println("W aadDriveer:::   "+carPark2.getDrivers().getDrivers());
-//        return aaa;
+        return aaa;
 }
 
 
@@ -156,8 +163,13 @@ public void askList(){
 //        System.out.println(driverList);
 //        carPark
 //        driverList.getDrivers().add(d);
-        carPark.getDrivers().getDrivers().add(dri);
+        try {
+            carPark.getDrivers().getDrivers().add(dri);
+
         System.out.println("W aadDriveer:::   "+carPark.getDrivers().getDrivers());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //to ponizej to inna lista!!!! do edycji ten rejon!!!
 //        return driverList;
     }
