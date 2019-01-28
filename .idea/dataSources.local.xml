@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="entityManager/Hibernate" uuid="047490fb-f8f2-4604-8a6c-79d9545133e8">
+      <database-info product="PostgreSQL" version="9.3.23" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.2">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <user-name>postgres</user-name>
+      <introspection-schemas>carpark:public</introspection-schemas>
+    </data-source>
+    <data-source name="entityManager/Hibernate" uuid="e40c0ce2-33d4-4653-928e-5fd088876e12">
+      <database-info product="PostgreSQL" version="9.3.23" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.2">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <user-name>postgres</user-name>
+      <introspection-schemas>carpark:public</introspection-schemas>
+    </data-source>
+  </component>
+</project>
