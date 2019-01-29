@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="car-park-web:war">
-    <output-path>$PROJECT_DIR$/car-park-web/target</output-path>
-    <root id="archive" name="car-park-web-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="car-park-web:war exploded" />
-    </root>
-  </artifact>
-</component>
