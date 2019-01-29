@@ -24,7 +24,6 @@ public class Operator {
         Scanner scPlate = new Scanner(System.in);
         String findVehiclePlate=scPlate.nextLine();
 
-
         for (int i = 0; i < readJSON().getDrivers().size(); i++) {
             if((readJSON().getDrivers().get(i).vehiclePlate.toUpperCase()).equals(findVehiclePlate.toUpperCase())){
                 System.out.println("Status for car "+findVehiclePlate.toUpperCase()+" is: "+readJSON().getDrivers().get(i).vehicleParkingMeterStatus);

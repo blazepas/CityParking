@@ -98,7 +98,6 @@ public DriverList askList(){
         String startTime = "0";
         System.out.println(startTime);
         parkingStatusMeter("null");
-
         return vehicleParkingMeterStatus;
     }
 
@@ -169,7 +168,7 @@ public DriverList askList(){
                 //count seconds to minutes
                 System.out.println("Difference in time "+difference/1000/60%60);
                 //convert to minutes
-                minutes = (difference/1000/60%60)+180; //mock > added extra 180 minutes to check how it work for 3 hours
+                minutes = (difference/1000/60%60)+180; //mocked > added extra 180 minutes to check how it work for 3 hours
                 //it is possible to check this with threads for methods start and stop, to create difference in minutes
 
                 //Calculating Fee for Regular driver
