@@ -8,7 +8,6 @@
   <artifactId>car-park-core</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-
   <name>car-park-core</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>

@@ -18,7 +18,6 @@ public class Owner extends Operator {
             e.printStackTrace();
         }
         try {
-
             int listSize = value.getDrivers().size();
 
             //Type date to check how much you earned per that day
