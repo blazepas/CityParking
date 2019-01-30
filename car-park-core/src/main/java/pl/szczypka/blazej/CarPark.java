@@ -49,6 +49,7 @@ public class CarPark {
                     break;
 
                 case 2:
+                    //create drivers and use different options to simulate program functionality
                     Driver driver = new Driver("SBIG156", "a");
                     Driver driver2 = new Driver("WWA2131", "b");
                     Driver driver10 = new Driver("WAW1517", "a");
@@ -116,7 +117,6 @@ public class CarPark {
                 default:
                     System.out.println("The rest is implemented below");
             }
-
 
 //        System.out.println("LIST1   "+driverList1);
 //        System.out.println("LIST2   "+driverList2);
