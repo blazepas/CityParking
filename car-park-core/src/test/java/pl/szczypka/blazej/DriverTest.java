@@ -14,7 +14,6 @@ Driver driver = new Driver();
 
         //Assertion with space string is NOT correct
         assertNotEquals("start", driver.parkingStatusMeter(" "));
-
     }
 
 

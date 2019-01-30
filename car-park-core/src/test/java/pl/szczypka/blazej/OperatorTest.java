@@ -9,6 +9,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 public class OperatorTest {
 
+
     @Test
     //Check if there are no incorrect dates in database
 

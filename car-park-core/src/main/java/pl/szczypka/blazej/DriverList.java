@@ -7,7 +7,6 @@ import pl.szczypka.blazej.CarPark;
 public class DriverList {
     private List<Driver> driverList = new ArrayList<>();
 
-
     public List<Driver> getDrivers(){
         return driverList;
     }
