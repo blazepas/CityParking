@@ -1,4 +1,7 @@
 package pl.szczypka.blazej;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,6 +19,7 @@ public class Driver{
     public double countedHours;
     public String currency = "PLN";
     public double exchangeRateCurrency;
+    public DriverList driverList1 = new DriverList();
 
 
     //This constructor is mandatory for reading from JSON
@@ -36,27 +40,43 @@ public class Driver{
     }
 
 
-public DriverList askList(){
-        DriverList supportList = new DriverList();
+public DriverList createDriver(String plateNum, String driverType){
+    ObjectMapper mapper = new ObjectMapper();
+        DriverList newDriver = new DriverList();
         System.out.println("Enter your vehicle plate number: ");
-        Scanner takeOptions = new Scanner(System.in);
-        String takePlate = takeOptions.nextLine();
-        System.out.println("Enter your driver type a-Regular b-Disabled: ");
-        takeOptions = new Scanner(System.in);
-        String takeType = takeOptions.nextLine();
+
+        //        Scanner takeOptions = new Scanner(System.in);
+
+//        Scanner takeOptions = new Scanner(plateNum);
+//        String takePlate = takeOptions.nextLine();
+//        System.out.println("Enter your driver type a-Regular b-Disabled: ");
+
+        //        takeOptions = new Scanner(System.in);
+//        takeOptions = new Scanner(driverType);
+//        String takeType = takeOptions.nextLine();
 
         System.out.println(">>Creating driver manually<<");
         int i=0;
         if(i<1){
-            driverCreate =new Driver(takePlate, takeType);
+//            driverCreate =new Driver(takePlate, takeType);
+            driverCreate =new Driver(plateNum, driverType);
             i++;
         }
-        CarPark carPark = new CarPark();
-        carPark.driverList1.getDrivers().add(driverCreate);
-        supportList=carPark.driverList1;
-        carPark.driverList1.getDrivers().add(driverCreate);
+//        CarPark carPark = new CarPark();
+//        carPark.driverList1.getDrivers().add(driverCreate);
+        driverList1.getDrivers().add(driverCreate);
+//        newDriver=carPark.driverList1;
+        newDriver=driverList1;
+//        carPark.driverList1.getDrivers().add(driverCreate);
+//        driverList1.getDrivers().add(driverCreate);
+    System.out.println(newDriver);
+    try{
+        mapper.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final 4/carpark/result.json"),driverList1);
+    }catch (Exception e){
+        e.printStackTrace();
+    }
 
-        return supportList;
+        return driverList1;
 }
 
     Driver driverCreate;
@@ -89,7 +109,7 @@ public DriverList askList(){
 
 
 
-    //This method is used during driver object initualisation. Invoking from constructor.
+    //This method is used during driver object initialisation. Invoking from constructor.
     public String defaultTimerMethod(){
         Date now = new Date();
         SimpleDateFormat simpleOnlyDateForm = new SimpleDateFormat("dd-MM-yyyy");

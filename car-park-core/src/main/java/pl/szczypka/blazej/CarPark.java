@@ -8,6 +8,8 @@ public class CarPark {
 
 
     public static void main(String[] args){
+//        DriverListToWeb driverListToWeb = new DriverListToWeb();
+
         CarPark carPark = new CarPark();
         try {
             carPark.getDrivers();
@@ -16,12 +18,11 @@ public class CarPark {
         }
     }
 
-    DriverList driverList1 = new DriverList();
+//    DriverList driverList1 = new DriverList();
     DriverList driverList2 = new DriverList();
 
 
     public DriverList getDrivers() throws IOException {
-
             Driver driverAcc = new Driver();
             System.out.println("Choose what would like to do. Enter 2-to let system to generate car park full simulation or 1-to only add Driver manually");
             Scanner scOptions = new Scanner(System.in);
@@ -31,23 +32,19 @@ public class CarPark {
 
             switch(number){
                 case 1:
-                    driverList1=driverAcc.askList();
-                    System.out.println("Added data: "+driverList1);
-
+//                    driverList1=driverAcc.createDriver("SB111111", "a");
+//                    System.out.println("Added data: "+driverList1);
 
                     ObjectMapper mapper = new ObjectMapper();
                     /**
                      * Below function write object to JSON file (mocked database)
                      */
                     try{
-                        mapper.writeValue(new FileWriter("result.json"),driverList1);
+//                        mapper.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final 4/carpark/result.json"),driverList1);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-
-
                     break;
-
                 case 2:
                     Driver driver = new Driver("SBIG156", "a");
                     Driver driver2 = new Driver("WWA2131", "b");
@@ -58,7 +55,6 @@ public class CarPark {
 
                     driver2.startTimerMethod();
                     driver2.stopTimerMethod();
-
 
                     //Use method to check how much driver has to pay
                     if(driver.vehicleParkingMeterStatus.toUpperCase().equals("OFF")){
@@ -99,9 +95,7 @@ public class CarPark {
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-
                     System.out.println("Added data: "+driverList2);
-
 
             break;
                 case 3:
@@ -116,11 +110,8 @@ public class CarPark {
                 default:
                     System.out.println("The rest is implemented below");
             }
-
-
 //        System.out.println("LIST1   "+driverList1);
 //        System.out.println("LIST2   "+driverList2);
-
             return driverList2;
         }
 }
