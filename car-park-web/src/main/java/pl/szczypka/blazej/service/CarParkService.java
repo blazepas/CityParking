@@ -14,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import java.io.File;
+import java.io.IOException;
 //import java.io.IOException;
 //
 //import static pl.szczypka.blazej.DriverListToWeb.wholeList;
@@ -63,7 +64,7 @@ public class CarParkService {
     @Produces("text/plain")
     public String driverParkingMeterWeb(){
         Operator operWeb = new Operator();
-        String checkPlateStat =  operWeb.checkIfDriverTurnOnParkingMeter("SBIG156");
+        String checkPlateStat =  operWeb.checkIfDriverTurnOnParkingMeter("YY3");
         return checkPlateStat;
     }
 
@@ -77,14 +78,16 @@ public class CarParkService {
         return earnedMoney;
     }
 
-    @POST
+    @GET
     @Path("/add")
-    @Consumes("application/json")
-    public DriverList addDriverWeb(){
-        Driver driverWeb = new Driver();
-        DriverList addDriver = driverWeb.createDriver("SB43372", "a");
-        System.out.println(addDriver);
-        return addDriver;
+    @Produces("text/plain")
+    public String crDr(){
+        Driver driWe = new Driver();
+        String welc = "hi! oy4";
+        //creating new driver
+        driWe.createDriver("YY4","a");
+        return welc;
     }
+
 
 }

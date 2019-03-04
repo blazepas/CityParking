@@ -52,7 +52,6 @@ public class CarPark {
                     Driver driver11 = new Driver("SK9145H", "ZZZZZZZ");
 
                     driver.startTimerMethod();
-
                     driver2.startTimerMethod();
                     driver2.stopTimerMethod();
 

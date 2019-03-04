@@ -41,6 +41,7 @@ public class Driver{
 
 
 public DriverList createDriver(String plateNum, String driverType){
+//    DriverList driverList1 = new DriverList();
     ObjectMapper mapper = new ObjectMapper();
         DriverList newDriver = new DriverList();
         System.out.println("Enter your vehicle plate number: ");
@@ -50,8 +51,8 @@ public DriverList createDriver(String plateNum, String driverType){
 //        Scanner takeOptions = new Scanner(plateNum);
 //        String takePlate = takeOptions.nextLine();
 //        System.out.println("Enter your driver type a-Regular b-Disabled: ");
-
-        //        takeOptions = new Scanner(System.in);
+//
+//                takeOptions = new Scanner(System.in);
 //        takeOptions = new Scanner(driverType);
 //        String takeType = takeOptions.nextLine();
 
@@ -104,8 +105,6 @@ public DriverList createDriver(String plateNum, String driverType){
             e.printStackTrace();
         }
     }
-
-
 
 
 
