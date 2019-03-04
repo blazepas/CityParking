@@ -11,10 +11,11 @@ import pl.szczypka.blazej.*;
 //import pl.szczypka.blazej.Operator.*;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import java.io.File;
-import java.io.IOException;
 //import java.io.IOException;
 //
 //import static pl.szczypka.blazej.DriverListToWeb.wholeList;
@@ -30,7 +31,7 @@ public class CarParkService {
     @Path("/hello")
     @Produces("text/plain")
     public String test(){
-        return "Hello My World";
+        return "Hello";
     }
 
 
@@ -44,7 +45,7 @@ public class CarParkService {
 
 
     @GET
-    @Path("/l")
+    @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
         public DriverList readJSON(){
         ObjectMapper objectMapperOperatorWeb = new ObjectMapper();
@@ -58,35 +59,37 @@ public class CarParkService {
             return valueWeb;
         }
 
-    //mocked operator return carpark meter status
-    @GET
+    //operator return driver meter status
+    @POST
     @Path("/operator")
-    @Produces("text/plain")
-    public String driverParkingMeterWeb(){
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String driverStatusWeb(@FormParam("enteredplate") String plateToCheck){
         Operator operWeb = new Operator();
-        String checkPlateStat =  operWeb.checkIfDriverTurnOnParkingMeter("YY3");
+        String checkPlateStat =  operWeb.checkIfDriverTurnOnParkingMeter(plateToCheck);
         return checkPlateStat;
     }
 
-    //owner return information about earned m oney per mocked day
-    @GET
+    //owner return information about earned money per entered day
+    @POST
     @Path("/owner")
-    @Produces("text/plain")
-    public String moneyForGivenDaywWeb(){
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String moneyForDaywWeb(@FormParam("enteredate") String dateToCheck){
         Owner ownWeb = new Owner();
-        String earnedMoney = ownWeb.checkTotalMoneyForGivenDay("28-01-2019");
+        String earnedMoney = ownWeb.checkTotalMoneyForGivenDay(dateToCheck);
         return earnedMoney;
     }
 
-    @GET
+    //create new driver
+    @POST
     @Path("/add")
-    @Produces("text/plain")
-    public String crDr(){
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    public DriverList crDr(@FormParam("platenumber") String plateN, @FormParam("drivertyp") String typeDr){
         Driver driWe = new Driver();
         String welc = "hi! oy4";
-        //creating new driver
-        driWe.createDriver("YY4","a");
-        return welc;
+        return driWe.createDriver(plateN, typeDr);
     }
 
 
