@@ -4,6 +4,6 @@ package pl.szczypka.blazej.service;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath("api")
+@ApplicationPath("/api")
 public class RestConfig extends Application {
 }

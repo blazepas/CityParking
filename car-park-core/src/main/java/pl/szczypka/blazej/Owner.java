@@ -15,7 +15,7 @@ public class Owner extends Operator {
         String moneyOut = "";
         //ObjectMapper to read JSON file
         try {
-            value = objectMapperOperator.readValue(new File("/home/bsz/IdeaProjects/carpark_final 4/carpark/result.json"), DriverList.class);
+            value = objectMapperOperator.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
         } catch (Exception e){
             e.printStackTrace();
         }

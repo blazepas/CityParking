@@ -21,7 +21,7 @@ public class DriverListToWeb {
 //        ObjectMapper valueWeb = null;
 
         try {
-            valueWeb = objectMapperOpe.readValue(new File("/home/bsz/IdeaProjects/carpark_final 4/carpark/result.json"), DriverList.class);
+            valueWeb = objectMapperOpe.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
 //            valueWeb = jacksonProvider.locateMapper(DriverList.class, PageAttributes.MediaType.APPLICATION_JSON_TYPE);
 //            valueWeb = jacksonProvider.locateMapper(DriverList.class, MediaType.APPLICATION_JSON_TYPE);
         } catch (Exception e){
