@@ -10,32 +10,11 @@ import javax.ws.rs.core.UriInfo;
 import java.io.File;
 import java.net.URI;
 
-//import java.net.*;
-
 
 @Path("/car")
 public class CarParkService {
 
-//    @EJB
-//    Operator oper;
-
-    @POST
-    @Path("/hello")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String test(){
-        String msgWelcome = "Hello";
-        return msgWelcome;
-    }
-
-
-    @GET
-    @Path("/q")
-    @Produces(MediaType.APPLICATION_JSON)
-    public DriverList readJSONN(){
-        return DriverListToWeb.wholeList();
-    }
-
-
+    //show whole database
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
@@ -51,18 +30,8 @@ public class CarParkService {
             return valueWeb;
         }
 
-
     @Context
     public UriInfo uriInfo;
-    public Response response;
-
-    @POST
-    @Path("/redirect")
-    public Response myMethod() {
-        URI uri = uriInfo.getBaseUriBuilder().path("/car/hello").build();
-        return Response.temporaryRedirect(uri).build();
-    }
-
 
     //switch counter for driver
     @POST
@@ -75,6 +44,7 @@ public class CarParkService {
         return checkPlateStat;
     }
 
+    //display how much is to pay
     @POST
     @Path("/debt")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -125,18 +95,8 @@ public class CarParkService {
         }catch (NullPointerException n){
             System.out.println("Counter will not start automatically");
             driWe.createDriver(plateN, typeDr);
-            reply = "Registered Successful. Before you leave parking lot Don't forget to start counter.";
+            reply = "Successful. Counter will not start automatically. Don't forget to start counter.";
         }
         return reply;
-    }
-
-
-    @POST
-    @Path("/startime")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.TEXT_PLAIN)
-    public String startParkMeter(){
-        Driver driwerSta = new Driver();
-        return driwerSta.startTimerMethod();
     }
 }

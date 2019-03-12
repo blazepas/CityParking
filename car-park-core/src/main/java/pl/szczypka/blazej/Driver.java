@@ -1,6 +1,7 @@
 package pl.szczypka.blazej;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -19,9 +20,10 @@ public class Driver{
     public double countFromThirdHour;
     public String currency = "PLN";
     public double exchangeRateCurrency;
+
     /////////////////// this is added to list
     public DriverList driverList1 = new DriverList();
-//    public Operator operat = new Operator();
+    Operator operat = new Operator();
 
     //This constructor is mandatory for reading from JSON
     public Driver(){}
@@ -31,88 +33,69 @@ public class Driver{
     public Driver(String id, String driverType){
         switch(driverType){
             case "a": this.driverType="Regular";
-                    break;
+                break;
             case "b": this.driverType="Disabled";
         }
-
-
         this.vehiclePlate =id;
         defaultTimerMethod();
     }
 
 
-public DriverList createDriver(String plateNum, String driverType){
-    ObjectMapper mapper = new ObjectMapper();
-        DriverList newDriver = new DriverList();
-
-        System.out.println(">>Creating driver manually<<");
-        int i=0;
-        if(i<1){
-            driverCreate =new Driver(plateNum, driverType);
-            i++;
-        }
-        driverList1.getDrivers().add(driverCreate);
-        newDriver=driverList1;
-
-    System.out.println(newDriver);
-    try{
-        mapper.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"),driverList1);
-    }catch (Exception e){
-        e.printStackTrace();
-    }
-
-        return driverList1;
-}
-
-
-
-    public DriverList createDriverWithStartTime(String plateNum, String driverType){
+    public DriverList createDriver(String plateNum, String driverType){
         ObjectMapper mapper = new ObjectMapper();
-        DriverList newDriver = new DriverList();
-
-        System.out.println(">>Creating driver manually<<");
-        int i=0;
-        if(i<1){
-            driverCreate =new Driver(plateNum, driverType);
-            i++;
+        //Read database and load to List
+        try{
+            driverList1 = mapper.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        driverCreate.startTimerMethod();
+        //Check if plate number is not in a List (not in database)
+        for (int i = 0; i < driverList1.getDrivers().size(); i++) {
+            if ((driverList1.getDrivers().get(i).vehiclePlate.toUpperCase()).equals(plateNum.toUpperCase())) {
+                System.out.println("This car exist in database.");
+                return driverList1;
+            }
+        }
+        //Create new driver
+        System.out.println(">>Creating driver manually<<");
+        driverCreate =new Driver(plateNum, driverType);
         driverList1.getDrivers().add(driverCreate);
-        newDriver=driverList1;
-
-        System.out.println(newDriver);
         try{
             mapper.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"),driverList1);
         }catch (Exception e){
             e.printStackTrace();
         }
+        return driverList1;
+    }
 
+
+
+    public DriverList createDriverWithStartTime(String plateNum, String driverType){
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            driverList1 = mapper.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        for (int i = 0; i < driverList1.getDrivers().size(); i++) {
+            if ((driverList1.getDrivers().get(i).vehiclePlate.toUpperCase()).equals(plateNum.toUpperCase())) {
+                System.out.println("This car exist in database.");
+                return driverList1;
+            }
+        }
+        System.out.println(">>Creating driver manually with counter<<");
+        driverCreate = new Driver(plateNum, driverType);
+        driverCreate.startTimerMethod();
+        driverList1.getDrivers().add(driverCreate);
+        try {
+            mapper.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), driverList1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return driverList1;
     }
 
     Driver driverCreate;
-    //Method addDriverObj() logic where is possible to add one by one user to database from console
-    public Driver addDriverObj(String plateIn, String driverTypeIn) {
-        System.out.println("Creating driver");
-        int i=0;
-        if(i<1){
-            driverCreate =new Driver(plateIn, driverTypeIn);
-            i++;
-        }
-        addDriverToListManually(driverCreate);
-        return driverCreate;
-    }
-
-    public void addDriverToListManually(Driver dri){
-        CarPark carPark = new CarPark();
-        try {
-            carPark.getDrivers().getDrivers().add(dri);
-//        System.out.println("W aadDriveer:::   "+carPark.getDrivers().getDrivers());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
 
@@ -154,11 +137,10 @@ public DriverList createDriver(String plateNum, String driverType){
 
     public static String driTyp = "a";
     public String due="";
-    Operator operat = new Operator();
+    //    Operator operat = new Operator();
     //switch counter
     public String changeParkingMeter(String plateNum) throws Exception {
         ObjectMapper objectMap = new ObjectMapper();
-
         operat.readJSON();
         String findVehiclePlate=plateNum;
         String meterOut ="";
@@ -217,21 +199,14 @@ public DriverList createDriver(String plateNum, String driverType){
     }
 
     //display Dept
-    public String debt(String plateNum){
-        Scanner scPlate = new Scanner(plateNum);
-        String findVehiclePlate=scPlate.nextLine();
+    public String debt(String findVehiclePlate){
         double debt=0.0;
         for (int i = 0; i < operat.readJSON().getDrivers().size(); i++) {
             if ((operat.readJSON().getDrivers().get(i).vehiclePlate.toUpperCase()).equals(findVehiclePlate.toUpperCase())) {
-//                System.out.println("Status for car "+findVehiclePlate.toUpperCase()+" is: "+readJSON().getDrivers().get(i).vehicleParkingMeterStatus);
                 debt = operat.readJSON().getDrivers().get(i).paymentForAllHours;
-//                meterOut = "Status for car "+findVehiclePlate.toUpperCase()+" is: "+readJSON().getDrivers().get(i).vehicleParkingMeterStatus;
-
             }
         }
-
         return "Debt to pay is "+debt+" "+currency;
-
     }
 
 
@@ -261,44 +236,34 @@ public DriverList createDriver(String plateNum, String driverType){
         double disabledSecondHourFee = 2;
         double muliplyFee = 1.5;
         double muliplyDisapledFee = 1.2;
-        double calcEachHour;
         double houreBefore = 2;
         double disabledHoureBefore = 2;
-//        operat.readJSON();
 
-        //create instance to keep one format fo date
+        //keep date in one format
         SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm:ss");
-        //read date to instance format date and add this to instance date
-
         if(stopTime == "0" || startTime == "0"){
         }else {
             Date date1 = simpleDateFormat1.parse(stopTimeIn);
             Date date2 = simpleDateFormat1.parse(startTimeIn);
-
             System.out.println(date2);
             System.out.println(stopTimeIn);
-
             long difference = date1.getTime() - date2.getTime();
-//            long difference = date1.getTime() - date2.getTime();
             System.out.println(difference);
 
             //count seconds to minutes
             System.out.println("Difference in time "+difference/1000/60%60);
             //convert to minutes
-//            minutes = (difference/1000/60%60)+180; //mock > added extra 180 minutes to check how it work for 3 hours
-            minutes = (difference/(1000*60)%60)+180; //mock > added extra 180 minutes to check how it work for 3 hours
-            //it is possible to check this with threads for methods start and stop, to create difference in minutes
+            minutes = (difference/(1000*60)%60);
             System.out.println(minutes);
             //Calculating Fee for Regular driver
-//            if(driverType == "Regular"){
-
             if(driTyp.equals("Regular")){
                 if(minutes<=60){
                     System.out.println("Payment for one hour is "+startFee);
+                    paymentForAllHours = paymentForAllHours + startFee;
                 }
                 if(minutes>60 && minutes<=120){
-
                     System.out.println("Payment for two hours is "+(startFee+secondHourFee));
+                    paymentForAllHours = paymentForAllHours + startFee + secondHourFee;
                 }
                 if(minutes>120){
                     countFromThirdHour =(minutes-120)/60;
@@ -309,15 +274,14 @@ public DriverList createDriver(String plateNum, String driverType){
                     }
                     System.out.println("Total payment for "+ minutes/60 + " hours is " + paymentForAllHours+" " + currency);
                 }
-                //Calculate fee for the car park
-                //Fee for Disability
-//            } else if(driverType == "Disabled") {
-            } else if(driTyp == "Disabled") {
+            } else if(driTyp.equals("Disabled")) {
                 if(minutes<=60){
                     System.out.println("Disabled payment for one hour = "+disabledStartFee);
+                    paymentForAllHours = paymentForAllHours + disabledStartFee;
                 }
                 if(minutes>60 && minutes<=120){
                     System.out.println("Disabled payment for two hours = "+(disabledStartFee + disabledSecondHourFee));
+                    paymentForAllHours = paymentForAllHours + disabledStartFee + disabledSecondHourFee;
                 }
                 if(minutes>120){
                     countFromThirdHour =(minutes-120)/60;
@@ -335,8 +299,6 @@ public DriverList createDriver(String plateNum, String driverType){
     }
 
 
-
-    //toString is mandatory for reading from JSON
     @Override
     public String toString() {
         return "Driver{" +
