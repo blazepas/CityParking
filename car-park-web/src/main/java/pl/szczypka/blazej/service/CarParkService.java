@@ -84,7 +84,6 @@ public class CarParkService {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     public String crDr(@FormParam("platenumber") String plateN, @FormParam("drivertyp") String typeDr, @FormParam("readytostart") String checkbox) {
-        DriverList driverList = new DriverList();
         Driver driWe = new Driver();
         String reply ="";
         try {

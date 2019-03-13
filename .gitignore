@@ -2,6 +2,7 @@
 out/*
 target/
 .idea/*
+*.xml~
 
 # Compiled class file
 *.class
