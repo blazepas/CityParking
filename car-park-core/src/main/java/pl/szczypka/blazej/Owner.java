@@ -1,10 +1,14 @@
 package pl.szczypka.blazej;
 
+import org.jboss.logging.Logger;
+
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Owner extends Operator {
+    protected static final Logger log = Logger.getLogger(Owner.class);
 
     public String checkTotalMoneyForGivenDay(String dateToCheck){
         BigDecimal totalMoney = new BigDecimal(0.0);
@@ -14,8 +18,10 @@ public class Owner extends Operator {
         //ObjectMapper to read JSON file
         try {
             setValue(getObjectMapperOperator().readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class));
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (IOException io){
+            log.error(io);
+        } catch (Exception e) {
+            log.error(e);
         }
         try {
             int listSize = getValue().getDrivers().size();
@@ -23,7 +29,6 @@ public class Owner extends Operator {
             if (checkOnlyOneDay < 1){
                 System.out.println("Enter date in format \"dd-mm-yyyy\" to check how much money you earned per day: ");
                 System.out.println(dateToCheck);
-
                 //Compare all Drivers timestamps
                 try {
                     for (int i = 0; i<listSize; i++) {
@@ -31,17 +36,20 @@ public class Owner extends Operator {
                             totalMoney = totalMoney.add(getValue().getDrivers().get(i).getPaymentForAllHours());
                         }
                     }
-                } catch(Exception e){
-                    e.printStackTrace();
+                } catch (IllegalArgumentException i){
+                    log.error(i);
+                } catch (Exception e) {
+                    log.error(e);
                 }
 
                 String totalMoneyRoundNumber = String.format("%.2f", totalMoney);
-                System.out.println("Total money earned in day "+dateToCheck+" is: " +totalMoneyRoundNumber + " PLN");
                 moneyOut = "Total money earned in day "+dateToCheck+" is: " +totalMoneyRoundNumber + " PLN";
                 checkOnlyOneDay++;
             }
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (IllegalArgumentException i){
+            log.error(i);
+        } catch (Exception e) {
+            log.error(e);
         }
         return moneyOut;
     }

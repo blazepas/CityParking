@@ -46,7 +46,7 @@ public class OperatorTest {
             for (int i = 0; i<valFromList.getDrivers().size(); i++){
                 for(int j = 0; j<checklist.size(); j++) {
                     assertNotEquals(valFromList.getDrivers().get(i).getTimestamp(), (checklist.get(j)));
-                    System.out.println("This incorrect pattern:    "+checklist.get(j)+"    does not exists in database");
+                    System.out.println("Check with wrong pattern:    "+checklist.get(j)+"    OK it does not exists in database");
                 }
             }
             }catch (Exception e){

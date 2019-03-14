@@ -1,23 +1,28 @@
 package pl.szczypka.blazej;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jboss.logging.Logger;
 
 import javax.ejb.Local;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Operator {
     private ObjectMapper objectMapperOperator = new ObjectMapper();
     private DriverList value = null;
+    protected static final Logger log = Logger.getLogger(Operator.class);
 
     public DriverList readJSON(){
         //ObjectMapper to read JSON file
         try {
             value = objectMapperOperator.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (IOException io){
+            log.error(io);
+        } catch (Exception e) {
+            log.error(e);
         }
         return value;
     }

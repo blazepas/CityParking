@@ -1,6 +1,7 @@
 package pl.szczypka.blazej.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jboss.logging.Logger;
 import pl.szczypka.blazej.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -8,11 +9,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 
 @Path("/car")
 public class CarParkService {
+    protected static final Logger log = Logger.getLogger(CarParkService.class);
 
     //show whole database
     @GET
@@ -24,8 +27,10 @@ public class CarParkService {
             //ObjectMapper to read JSON file
             try {
                 valueWeb = objectMapperOperatorWeb.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
-            } catch (Exception e){
-                e.printStackTrace();
+            } catch (IOException io){
+                log.error(io);
+            } catch (Exception e) {
+                log.error(e);
             }
             return valueWeb;
         }
@@ -83,7 +88,7 @@ public class CarParkService {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
-    public String crDr(@FormParam("platenumber") String plateN, @FormParam("drivertyp") String typeDr, @FormParam("readytostart") String checkbox) {
+    public String crDr(@FormParam("platenumber") String plateN, @FormParam("drivertyp") String typeDr, @FormParam("readytostart") String checkbox){
         Driver driWe = new Driver();
         String reply ="";
         try {
