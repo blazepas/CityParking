@@ -20,8 +20,10 @@ public class Owner extends Operator {
             setValue(getObjectMapperOperator().readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class));
         } catch (IOException io){
             log.error(io);
+            io.getCause();
         } catch (Exception e) {
             log.error(e);
+            e.getCause();
         }
         try {
             int listSize = getValue().getDrivers().size();
@@ -38,8 +40,10 @@ public class Owner extends Operator {
                     }
                 } catch (IllegalArgumentException i){
                     log.error(i);
+                    i.getCause();
                 } catch (Exception e) {
                     log.error(e);
+                    e.getCause();
                 }
 
                 String totalMoneyRoundNumber = String.format("%.2f", totalMoney);
@@ -48,8 +52,10 @@ public class Owner extends Operator {
             }
         } catch (IllegalArgumentException i){
             log.error(i);
+            i.getCause();
         } catch (Exception e) {
             log.error(e);
+            e.getCause();
         }
         return moneyOut;
     }

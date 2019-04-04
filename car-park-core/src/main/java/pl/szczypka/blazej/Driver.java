@@ -1,7 +1,9 @@
 package pl.szczypka.blazej;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.annotations.NaturalId;
 import org.jboss.logging.Logger;
 
+import javax.persistence.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,8 +11,14 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity
 public class Driver{
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column (name="id", updatable=false, nullable=false)
+    private Long id;
     //all saved in List
+//    @NaturalId
     private String vehiclePlate;
     private String driverType;
     private String vehicleParkingMeterStatus ="";
@@ -24,9 +32,16 @@ public class Driver{
     private double exchangeRateCurrency;
 
 
+    @Transient
     private DriverList driverList = new DriverList();
     protected static final Logger log = Logger.getLogger(Driver.class);
+
+    @Transient
     Operator operat = new Operator();
+
+    @Transient
+    private Driver driverCreate;
+
 
     //This constructor is mandatory for reading from JSON
     public Driver(){}
@@ -34,17 +49,18 @@ public class Driver{
     //This constructor is helpful to create another object
     //Validate driverType
     public Driver(String id, String driverType){
-            switch (driverType) {
-                case "a":
-                    this.driverType = "Regular";
-                    break;
-                case "b":
-                    this.driverType = "Disabled";
-                    break;
-            }
+        switch (driverType) {
+            case "a":
+                this.driverType = "Regular";
+                break;
+            case "b":
+                this.driverType = "Disabled";
+                break;
+        }
         this.vehiclePlate=id;
         defaultTimerMethod();
     }
+
 
     public DriverList createDriver(String plateNum, String driverType){
         ObjectMapper mapper = new ObjectMapper();
@@ -54,8 +70,10 @@ public class Driver{
                 driverList = mapper.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
             }catch (IOException io){
                 log.error(io);
+                io.getCause();
             } catch (Exception e) {
                 log.error(e);
+                e.getCause();
             }
             //Check if plate number is not in a List (not in database)
             for (int i = 0; i < driverList.getDrivers().size(); i++) {
@@ -73,23 +91,30 @@ public class Driver{
                 mapper.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), driverList);
             } catch (IOException io){
                 log.error(io);
+                io.getCause();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e);
+                e.getCause();
             }
+            //DAO add driver to DB
+            DriverDaoImpl driverDaoImpl = new DriverDaoImpl();
+            driverDaoImpl.createDriverDB(driverCreate);
+
         }else{
             try {
+                //this is just example to throw exception to present this in my code nothing else
                 throw new IllegalArgumentException("driver type cannot be different than a-normal or b-disable");
 
             }catch (IllegalArgumentException i){
                 log.error(i);
+                i.getCause();
             }catch (Exception e){
                 log.error(e);
+                e.getCause();
             }
         }
-
         return driverList;
     }
-
 
 
     public DriverList createDriverWithStartTime(String plateNum, String driverType) {
@@ -99,7 +124,9 @@ public class Driver{
                 driverList = mapper.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
             }catch (IOException io){
                 log.error(io);
+                io.getCause();
             } catch (Exception e) {
+                e.getCause();
                 log.error(e);
             }
             for (int i = 0; i < driverList.getDrivers().size(); i++) {
@@ -112,25 +139,34 @@ public class Driver{
             driverCreate = new Driver(plateNum, driverType);
             driverCreate.startTimerMethod();
             driverList.getDrivers().add(driverCreate);
+
             try {
                 mapper.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), driverList);
             }catch (IOException io){
                 log.error(io);
+                io.getCause();
             } catch (Exception e) {
                 log.error(e);
+                e.getCause();
             }
+
+            //DAO add driver to DB
+            DriverDaoImpl driverDaoImpl = new DriverDaoImpl();
+            driverDaoImpl.createDriverDB(driverCreate);
+
+
         }else{
-        try {
-            throw new IllegalArgumentException("Driver type cannot be different than a-normal or b-disable");
-        }catch (IllegalArgumentException i ){
-            log.error(i);
-        }catch (Exception e) {
-            log.error(e);
-        } }
+            try {
+                throw new IllegalArgumentException("Driver type cannot be different than a-normal or b-disable");
+            }catch (IllegalArgumentException i ){
+                log.error(i);
+                i.getCause();
+            }catch (Exception e) {
+                log.error(e);
+                e.getCause();
+            } }
         return driverList;
     }
-
-    private Driver driverCreate;
 
     //This method is used during driver object initialisation. Invoking from constructor.
     public String defaultTimerMethod(){
@@ -162,9 +198,9 @@ public class Driver{
     public String stopTimerMethod() throws IllegalArgumentException, Exception{
         Date nowStop = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-            stopTime = simpleDateFormat.format(nowStop);
-            parkingStatusMeter("stop");
-            System.out.println(stopTime);
+        stopTime = simpleDateFormat.format(nowStop);
+        parkingStatusMeter("stop");
+        System.out.println(stopTime);
         return stopTime;
     }
     //driver type
@@ -189,8 +225,10 @@ public class Driver{
                         objectMap.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"),operat.getValue());
                     }catch (IOException io){
                         log.error(io);
+                        io.getCause();
                     }catch (Exception e) {
                         log.error(e);
+                        e.getCause();
                     }
                     reply = "Parking meter is running";
                 }
@@ -208,10 +246,18 @@ public class Driver{
                         objectMap.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), operat.getValue());
                     }catch(IOException io){
                         log.error(io);
+                        io.getCause();
                     }catch (Exception e){
                         log.error(e);
+                        e.getCause();
 
                     }
+
+                    //trigger DAO to update counter status in DB -- this will be moved to separate method, it is only temporary
+                    //print DB in console -- only temporary
+                    DriverDaoImpl impl = new DriverDaoImpl();
+                    System.out.println(">>>>>>"+operat.getValue().getDrivers().get(i).vehicleParkingMeterStatus);
+                    impl.updateDriverDB(operat.getValue().getDrivers().get(i).vehicleParkingMeterStatus);
 
                     reply = "Parking meter is OFF. " + "Debt to pay is "+ operat.getValue().getDrivers().get(i).paymentForAllHours;
                 }
@@ -252,7 +298,7 @@ public class Driver{
     }
 
     //Show how much he/she has to pay
-    public BigDecimal howMuchIsToPay(String stopTimeIn, String startTimeIn) throws Exception {
+    public BigDecimal howMuchIsToPay(String stopTimeIn, String startTimeIn){
         double startFee = 1;
         double disabledStartFee = 0;
         double secondHourFee = 2;
@@ -272,55 +318,57 @@ public class Driver{
                 throw new IllegalArgumentException("Time value is empty");
             }
 
-        else {
-            Date date1 = simpleDateFormat1.parse(stopTimeIn);
-            Date date2 = simpleDateFormat1.parse(startTimeIn);
-            long difference = date1.getTime() - date2.getTime();
-            //count seconds to minutes
-            //convert to minutes
-            minutes = (difference/(1000*60)%60);
-            //Calculating Fee for Regular driver
-            if(driTyp.equals("Regular")){
-                if(minutes<=60){
-                    System.out.println("Payment for one hour is "+startFee);
-                    paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(startFee));
-                }
-                if(minutes>60 && minutes<=120){
-                    System.out.println("Payment for two hours is "+(startFee+secondHourFee));
-                    paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(startFee)).add(BigDecimal.valueOf(secondHourFee));
-                }
-                if(minutes>120){
-                    countFromThirdHour =(minutes-120)/60;
-                    paymentForAllHours = BigDecimal.valueOf(3.0);
-                    for(int x = 0; countFromThirdHour >x; x++){
-                        hourBefore = hourBefore *multiplyFee;
-                        paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(hourBefore));
+            else {
+                Date date1 = simpleDateFormat1.parse(stopTimeIn);
+                Date date2 = simpleDateFormat1.parse(startTimeIn);
+                long difference = date1.getTime() - date2.getTime();
+                //count seconds to minutes
+                //convert to minutes
+                minutes = (difference/(1000*60)%60);
+                //Calculating Fee for Regular driver
+                if(driTyp.equals("Regular")){
+                    if(minutes<=60){
+                        System.out.println("Payment for one hour is "+startFee);
+                        paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(startFee));
                     }
-                    System.out.println("Total payment for "+ minutes/60 + " hours is " + paymentForAllHours+" " + currency);
-                }
-            } else if(driTyp.equals("Disabled")) {
-                if(minutes<=60){
-                    System.out.println("Disabled payment for one hour = "+disabledStartFee);
-                    paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(disabledStartFee));
-                }
-                if(minutes>60 && minutes<=120){
-                    System.out.println("Disabled payment for two hours = "+(disabledStartFee + disabledSecondHourFee));
-                    paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(disabledStartFee)).add(BigDecimal.valueOf(disabledSecondHourFee));
-                }
-                if(minutes>120){
-                    countFromThirdHour =(minutes-120)/60;
-                    paymentForAllHours = BigDecimal.valueOf(disabledStartFee + disabledSecondHourFee);
-                    for(int x = 0; countFromThirdHour >x; x++){
-                        disabledHourBefore = disabledHourBefore *multiplyDisabledFee;
-                        paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(disabledHourBefore));
+                    if(minutes>60 && minutes<=120){
+                        System.out.println("Payment for two hours is "+(startFee+secondHourFee));
+                        paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(startFee)).add(BigDecimal.valueOf(secondHourFee));
                     }
-                    System.out.println("Disabled total payment for "+ minutes/60 + " hours is " + paymentForAllHours+" " + currency);
+                    if(minutes>120){
+                        countFromThirdHour =(minutes-120)/60;
+                        paymentForAllHours = BigDecimal.valueOf(3.0);
+                        for(int x = 0; countFromThirdHour >x; x++){
+                            hourBefore = hourBefore *multiplyFee;
+                            paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(hourBefore));
+                        }
+                        System.out.println("Total payment for "+ minutes/60 + " hours is " + paymentForAllHours+" " + currency);
+                    }
+                } else if(driTyp.equals("Disabled")) {
+                    if(minutes<=60){
+                        System.out.println("Disabled payment for one hour = "+disabledStartFee);
+                        paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(disabledStartFee));
+                    }
+                    if(minutes>60 && minutes<=120){
+                        System.out.println("Disabled payment for two hours = "+(disabledStartFee + disabledSecondHourFee));
+                        paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(disabledStartFee)).add(BigDecimal.valueOf(disabledSecondHourFee));
+                    }
+                    if(minutes>120){
+                        countFromThirdHour =(minutes-120)/60;
+                        paymentForAllHours = BigDecimal.valueOf(disabledStartFee + disabledSecondHourFee);
+                        for(int x = 0; countFromThirdHour >x; x++){
+                            disabledHourBefore = disabledHourBefore *multiplyDisabledFee;
+                            paymentForAllHours = paymentForAllHours.add(BigDecimal.valueOf(disabledHourBefore));
+                        }
+                        System.out.println("Disabled total payment for "+ minutes/60 + " hours is " + paymentForAllHours+" " + currency);
+                    }
                 }
-            }
-        }} catch(IllegalArgumentException i) {
+            }} catch(IllegalArgumentException i) {
             log.error(i);
-            } catch (Exception e){
+            i.getCause();
+        } catch (Exception e){
             log.error(e);
+            e.getCause();
         }
 
         System.out.println("Payment for all hours "+paymentForAllHours);

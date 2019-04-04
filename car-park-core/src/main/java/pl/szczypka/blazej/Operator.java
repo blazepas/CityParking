@@ -21,11 +21,14 @@ public class Operator {
             value = objectMapperOperator.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
         } catch (IOException io){
             log.error(io);
+            io.getCause();
         } catch (Exception e) {
             log.error(e);
+            e.getCause();
         }
         return value;
     }
+
 
     public String checkIfDriverTurnOnParkingMeter(String findVehiclePlate) {
         String meterOut ="";

@@ -21,19 +21,28 @@ public class CarParkService {
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
-        public DriverList readJSON(){
+    public DriverList readJSON(){
         ObjectMapper objectMapperOperatorWeb = new ObjectMapper();
         DriverList valueWeb = null;
-            //ObjectMapper to read JSON file
-            try {
-                valueWeb = objectMapperOperatorWeb.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
-            } catch (IOException io){
-                log.error(io);
-            } catch (Exception e) {
-                log.error(e);
-            }
-            return valueWeb;
+        //ObjectMapper to read JSON file
+        try {
+            valueWeb = objectMapperOperatorWeb.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
+        } catch (IOException io){
+            log.error(io);
+            io.getCause();
+        } catch (Exception e) {
+            log.error(e);
+            e.getCause();
         }
+
+        //trigger DAO to show whole DB -- this will be moved to separate method, it is only temporary
+        //print DB in console -- only temporary
+        DriverDaoImpl impl = new DriverDaoImpl();
+        impl.showListDriverDB();
+
+
+        return valueWeb;
+    }
 
     @Context
     public UriInfo uriInfo;
@@ -46,7 +55,9 @@ public class CarParkService {
     public String startCounter(@FormParam("platee") String plateToChec) throws Exception {
         Driver driverWeb = new Driver();
         String checkPlateStat =  driverWeb.changeParkingMeter(plateToChec);
+
         return checkPlateStat;
+
     }
 
     //display how much is to pay
@@ -68,6 +79,12 @@ public class CarParkService {
     public String driverStatusWeb(@FormParam("enteredplate") String plateToCheck){
         Operator operWeb = new Operator();
         String checkPlateStat =  operWeb.checkIfDriverTurnOnParkingMeter(plateToCheck);
+
+        //trigger DAO to check counter status for plate in DB -- this will be moved to separate method, it is only temporary
+        //print DB in console -- only temporary
+        DriverDaoImpl impl = new DriverDaoImpl();
+        impl.showStatusParkingMeterDB(plateToCheck);
+
         return checkPlateStat;
     }
 
@@ -97,6 +114,8 @@ public class CarParkService {
                 reply = "Successful. Counter is running.";
             }
         }catch (NullPointerException n){
+            log.error(n);
+            n.getCause();
             System.out.println("Counter will not start automatically");
             driWe.createDriver(plateN, typeDr);
             reply = "Successful. Counter will not start automatically. Don't forget to start counter.";
