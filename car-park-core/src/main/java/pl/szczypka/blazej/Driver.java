@@ -1,6 +1,8 @@
 package pl.szczypka.blazej;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.OptimisticLock;
 import org.jboss.logging.Logger;
 
 import javax.persistence.*;
@@ -12,19 +14,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
+@DynamicUpdate
 public class Driver{
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column (name="id", updatable=false, nullable=false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "OFR_OFFERS_SEQ")
+    @SequenceGenerator(name = "OFR_OFFERS_SEQ", sequenceName = "OFR_OFFERS_SEQ", allocationSize = 1)
+    @Column (name="id", updatable=true, nullable=false)
+    private int id;
     //all saved in List
 //    @NaturalId
     private String vehiclePlate;
     private String driverType;
+
     private String vehicleParkingMeterStatus ="";
     private String startTime="0";
     private String stopTime ="0";
     private long minutes;
+
+    @Version
+    private int version;
+
     private String timestamp;
     private BigDecimal paymentForAllHours = new BigDecimal(0.0);
     private double countFromThirdHour;
@@ -206,6 +215,7 @@ public class Driver{
     //driver type
     private static String driTyp = "";
     //switch counter
+
     public String changeParkingMeter(String plateNum) throws Exception {
         ObjectMapper objectMap = new ObjectMapper();
         operat.readJSON();
@@ -238,9 +248,9 @@ public class Driver{
                     operat.getValue().getDrivers().get(i).vehicleParkingMeterStatus = parkingStatusMeter("stop");
                     operat.getValue().getDrivers().get(i).stopTime = newTimeStamp;
                     driTyp = operat.getValue().getDrivers().get(i).driverType;
-                    String str1 = operat.getValue().getDrivers().get(i).startTime;
-                    String str2 = operat.getValue().getDrivers().get(i).stopTime;
-                    operat.getValue().getDrivers().get(i).howMuchIsToPay(str2, str1);
+                    String takeStartTime = operat.getValue().getDrivers().get(i).startTime;
+                    String takeStopTime = operat.getValue().getDrivers().get(i).stopTime;
+                    operat.getValue().getDrivers().get(i).howMuchIsToPay(takeStopTime, takeStartTime);
 
                     try {
                         objectMap.writeValue(new FileWriter("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), operat.getValue());
@@ -256,8 +266,15 @@ public class Driver{
                     //trigger DAO to update counter status in DB -- this will be moved to separate method, it is only temporary
                     //print DB in console -- only temporary
                     DriverDaoImpl impl = new DriverDaoImpl();
-                    System.out.println(">>>>>>"+operat.getValue().getDrivers().get(i).vehicleParkingMeterStatus);
-                    impl.updateDriverDB(operat.getValue().getDrivers().get(i).vehicleParkingMeterStatus);
+
+                    Driver driverToDB = operat.getValue().getDrivers().get(i);
+                    String parkingStatusToDB = operat.getValue().getDrivers().get(i).vehicleParkingMeterStatus;
+                    String stopTimeToDB = operat.getValue().getDrivers().get(i).stopTime;
+                    long minutesToDB = operat.getValue().getDrivers().get(i).minutes;
+                    BigDecimal paymentAllHoursToDB = operat.getValue().getDrivers().get(i).paymentForAllHours;
+                    double countFromThirdHourToDB = operat.getValue().getDrivers().get(i).countFromThirdHour;
+
+                    impl.updateDriverDB(driverToDB,parkingStatusToDB,stopTimeToDB, minutesToDB, paymentAllHoursToDB, countFromThirdHourToDB);
 
                     reply = "Parking meter is OFF. " + "Debt to pay is "+ operat.getValue().getDrivers().get(i).paymentForAllHours;
                 }
@@ -376,6 +393,7 @@ public class Driver{
         return paymentForAllHours;
     }
 
+    public int getId() { return id; }
 
     public String getVehiclePlate() {
         return vehiclePlate;
