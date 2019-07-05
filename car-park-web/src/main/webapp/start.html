@@ -1,0 +1,21 @@
+<html>
+<body>
+<text><H1>car-park</H1></text>
+<br>
+<button onclick="window.location.href='http://localhost:8080/car-park-web-1.0-SNAPSHOT/api/car/list'">Show Vehicles</button>
+<br>
+<br>
+<form action="api/car/add" method="POST">
+    <text>First enter plate number, second type a-regular or b-disable driver. Assign checkbox if you want to start counter.</text>
+    <br>
+    <input type="text" name="platenumber" required>
+    <input type="text" name="drivertyp" required>
+    <input type="checkbox" name="readytostart" value="startimmediately">
+    <br>
+    <input type="submit" value="Start">
+    <br>
+    <br>
+</form>
+
+</body>
+</html>

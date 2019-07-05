@@ -20,7 +20,7 @@ public class OperatorTest {
             List<String> checklist = new LinkedList<>();
 
             //Get one date from database and check pattern examples
-            String enteredDate = valFromList.getDrivers().get(0).timestamp;
+            String enteredDate = valFromList.getDrivers().get(0).getTimestamp();
             System.out.println("Example date from database: "+enteredDate);
 
             //match day, month and year to separate variables
@@ -45,8 +45,8 @@ public class OperatorTest {
             //Check if bad patterns are not matching with right one dd-MM-yyy in database
             for (int i = 0; i<valFromList.getDrivers().size(); i++){
                 for(int j = 0; j<checklist.size(); j++) {
-                    assertNotEquals(valFromList.getDrivers().get(i).timestamp, (checklist.get(j)));
-                    System.out.println("This incorrect pattern:    "+checklist.get(j)+"    does not exists in database");
+                    assertNotEquals(valFromList.getDrivers().get(i).getTimestamp(), (checklist.get(j)));
+                    System.out.println("Check with wrong pattern:    "+checklist.get(j)+"    OK it does not exists in database");
                 }
             }
             }catch (Exception e){

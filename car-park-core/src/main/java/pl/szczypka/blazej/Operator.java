@@ -1,52 +1,61 @@
 package pl.szczypka.blazej;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jboss.logging.Logger;
+
+import javax.ejb.Local;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Operator {
-    ObjectMapper objectMapperOperator = new ObjectMapper();
-    DriverList driverList = new DriverList();
-    DriverList value = null;
+    private ObjectMapper objectMapperOperator = new ObjectMapper();
+    private DriverList value = null;
+    protected static final Logger log = Logger.getLogger(Operator.class);
 
     public DriverList readJSON(){
         //ObjectMapper to read JSON file
         try {
-            value = objectMapperOperator.readValue(new File("result.json"), DriverList.class);
-        } catch (Exception e){
-            e.printStackTrace();
+            value = objectMapperOperator.readValue(new File("/home/bsz/IdeaProjects/carpark_final4/carpark/result.json"), DriverList.class);
+        } catch (IOException io){
+            log.error(io);
+            io.getCause();
+        } catch (Exception e) {
+            log.error(e);
+            e.getCause();
         }
         return value;
     }
 
-    public void checkIfDriverTurnOnParkingMeter() {
-        System.out.println("Enter vehicle plate to check status eg.SBIG156, WAW1517 :");
-        Scanner scPlate = new Scanner(System.in);
-        String findVehiclePlate=scPlate.nextLine();
 
-
+    public String checkIfDriverTurnOnParkingMeter(String findVehiclePlate) {
+        String meterOut ="";
         for (int i = 0; i < readJSON().getDrivers().size(); i++) {
-            if((readJSON().getDrivers().get(i).vehiclePlate.toUpperCase()).equals(findVehiclePlate.toUpperCase())){
-                System.out.println("Status for car "+findVehiclePlate.toUpperCase()+" is: "+readJSON().getDrivers().get(i).vehicleParkingMeterStatus);
-            }else{
+            if ((readJSON().getDrivers().get(i).getVehiclePlate().toUpperCase()).equals(findVehiclePlate.toUpperCase())) {
+                meterOut = readJSON().getDrivers().get(i).getVehicleParkingMeterStatus();
+                System.out.println(meterOut);
             }
         }
+        return meterOut;
     }
 
 
-    public static void main(String[] args) {
-        Operator operator = new Operator();
-        ObjectMapper objectMapperOperator = new ObjectMapper();
-        //Reading JSON file to variable value - this is DriverList type
-        DriverList value = null;
-        try {
-            value = objectMapperOperator.readValue(new File("result.json"), DriverList.class);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        System.out.println(value);
-
-
-        operator.checkIfDriverTurnOnParkingMeter();
+    public ObjectMapper getObjectMapperOperator() {
+        return objectMapperOperator;
     }
+
+    public void setObjectMapperOperator(ObjectMapper objectMapperOperator) {
+        this.objectMapperOperator = objectMapperOperator;
+    }
+
+    public DriverList getValue() {
+        return value;
+    }
+
+    public void setValue(DriverList value) {
+        this.value = value;
+    }
+
 }
